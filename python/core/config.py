@@ -2,10 +2,7 @@ import os
 import json
 import binascii
 
-PATH = os.path.join(os.environ.get('HOME'), '.crawlab')
-
-if not os.path.exists(PATH):
-    os.mkdir(PATH)
+from core import CRAWLAB_ROOT
 
 
 class Data(object):
@@ -29,7 +26,7 @@ class Data(object):
 
 
 class Config(object):
-    json_path = os.path.join(PATH, 'config.json')
+    json_path = os.path.join(CRAWLAB_ROOT, 'config.json')
     data = Data()
 
     def __init__(self):

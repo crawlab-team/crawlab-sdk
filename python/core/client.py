@@ -1,7 +1,31 @@
+import os
+from zipfile import ZipFile, ZIP_DEFLATED
+
 from prettytable import PrettyTable
 
+from core import CRAWLAB_TMP
 from core.config import config
 from core.request import Request
+
+
+def get_zip_file(input_path, result):
+    files = os.listdir(input_path)
+    for file in files:
+        filepath = os.path.join(input_path, file)
+        if os.path.isdir(filepath):
+            get_zip_file(filepath, result)
+        else:
+            result.append(filepath)
+
+
+def zip_file_path(input_path, target_path):
+    f = ZipFile(target_path, 'w', ZIP_DEFLATED)
+    file_list = []
+    get_zip_file(input_path, file_list)
+    for file in file_list:
+        f.write(file)
+    f.close()
+    return target_path
 
 
 class Client(object):
@@ -69,6 +93,20 @@ class Client(object):
         items = data.get('data') or []
         columns = ['_id', 'status', 'node_name', 'spider_name', 'error', 'result_count', 'create_ts', 'update_ts']
         Client.list(columns, items)
+
+    @staticmethod
+    def upload_customized_spider(directory=None, name=None):
+        # check if directory exists
+        if not os.path.exists(directory):
+            print(f'error: {directory} does not exist')
+            return
+
+        # compress the directory to the zipfile
+        target_path = os.path.join(CRAWLAB_TMP, name or os.path.basename(directory)) + '.zip'
+        zip_file_path(directory, target_path)
+
+        # upload zip file to server
+        Request.upload('/spiders', target_path)
 
 
 client = Client()

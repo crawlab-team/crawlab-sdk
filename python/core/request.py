@@ -55,3 +55,16 @@ class Request(object):
         if res.status_code != 200:
             return Request.get_error(res)
         return json.loads(res.content)
+
+    @staticmethod
+    def upload(path=None, file=None):
+        res = requests.post(
+            f'{config.data.api_address}{path}',
+            headers={'Authorization': config.data.token},
+            files={
+                'file': open(file, 'rb')
+            }
+        )
+        if res.status_code != 200:
+            return Request.get_error(res)
+        return json.loads(res.content)
