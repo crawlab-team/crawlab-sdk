@@ -32,7 +32,7 @@ class Client(object):
             return
         config.data.token = data.get('data')
         config.save()
-        print('obtained access token successfully')
+        print('logged-in successfully')
 
     @staticmethod
     def list_nodes():
@@ -59,6 +59,15 @@ class Client(object):
             print('error: ' + data.get('error'))
         items = data.get('data') or []
         columns = ['_id', 'name', 'spider_name', 'run_type', 'cron', 'create_ts', 'update_ts']
+        Client.list(columns, items)
+
+    @staticmethod
+    def list_tasks(number=10):
+        data = Request.get('/tasks', {'page_size': number})
+        if data.get('error'):
+            print('error: ' + data.get('error'))
+        items = data.get('data') or []
+        columns = ['_id', 'status', 'node_name', 'spider_name', 'error', 'result_count', 'create_ts', 'update_ts']
         Client.list(columns, items)
 
 
