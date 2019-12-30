@@ -8,6 +8,21 @@ from core.config import config
 from core.request import Request
 
 
+def zip_dir(start_dir, target_path):
+    start_dir = start_dir  # 要压缩的文件夹路径
+    file_new = target_path  # 压缩后文件夹的名字
+
+    z = ZipFile(file_new, 'w', ZIP_DEFLATED)
+    for dir_path, dir_names, file_names in os.walk(start_dir):
+        f_path = dir_path.replace(start_dir, '')  # 这一句很重要，不replace的话，就从根目录开始复制
+        f_path = f_path and f_path + os.sep or ''  # 实现当前文件夹以及包含的所有文件的压缩
+        for filename in file_names:
+            print(f_path + filename)
+            z.write(os.path.join(dir_path, filename), f_path + filename)
+    z.close()
+    return file_new
+
+
 def get_zip_file(input_path, result):
     files = os.listdir(input_path)
     for file in files:
@@ -64,7 +79,7 @@ class Client(object):
         if data.get('error'):
             print('error: ' + data.get('error'))
         items = data.get('data') or []
-        columns = ['_id', 'name', 'create_ts', 'update_ts']
+        columns = ['_id', 'name', 'status', 'create_ts', 'update_ts']
         Client.list(columns, items)
 
     @staticmethod
@@ -72,7 +87,7 @@ class Client(object):
         data = Request.get('/spiders', {'page_size': 99999999})
         if data.get('error'):
             print('error: ' + data.get('error'))
-        items = data.get('data').get('list') or []
+        items = (data.get('data').get('list') or []) if data.get('data') is not None else []
         columns = ['_id', 'name', 'display_name', 'type', 'col', 'create_ts', 'update_ts']
         Client.list(columns, items)
 
@@ -95,7 +110,7 @@ class Client(object):
         Client.list(columns, items)
 
     @staticmethod
-    def upload_customized_spider(directory=None, name=None):
+    def upload_customized_spider(directory=None, name=None, col=None, display_name=None, command=None, id=None):
         # check if directory exists
         if not os.path.exists(directory):
             print(f'error: {directory} does not exist')
@@ -103,10 +118,29 @@ class Client(object):
 
         # compress the directory to the zipfile
         target_path = os.path.join(CRAWLAB_TMP, name or os.path.basename(directory)) + '.zip'
-        zip_file_path(directory, target_path)
+        zip_dir(directory, target_path)
 
         # upload zip file to server
-        Request.upload('/spiders', target_path)
+        if id is None:
+            res = Request.upload('/spiders', target_path, data={
+                'name': name,
+                'display_name': display_name,
+                'col': col,
+                'command': command,
+            })
+            if res.get('error'):
+                print('error: ' + res.get('error'))
+                return
+        else:
+            res = Request.upload(f'/spiders/{id}/upload', target_path)
+            if res.get('error'):
+                print('error: ' + res.get('error'))
+                return
+        print('uploaded successfully')
+
+    @staticmethod
+    def upload_configurable_spider(directory=None, name=None, col=None, display_name=None, command=None, id=None):
+        pass
 
 
 client = Client()

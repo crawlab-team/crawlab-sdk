@@ -65,7 +65,7 @@ def schedules():
 
 @click.command('tasks', help='list the tasks')
 @click.option('--number', '-n', help='number of tasks')
-def schedules(number=None):
+def tasks(number=None):
     client.list_tasks(number)
 
 
@@ -73,9 +73,12 @@ def schedules(number=None):
 @click.option('--type', '-t', default=constants.Spider.CUSTOMIZED, help='spider type')
 @click.option('--directory', '-d', help='directory path, for customized spiders')
 @click.option('--name', '-n', help='spider name')
+@click.option('--col', '-c', help='spider results collection')
+@click.option('--display_name', '-N', help='spider display name')
+@click.option('--command', '-m', help='spider execution command')
 @click.option('--id', '-i', help='spider id')
 @click.option('--spiderfile', '-f', help='Spiderfile path')
-def upload(type=None, directory=None, name=None, id=None, spiderfile=None):
+def upload(type=None, directory=None, name=None, col=None, display_name=None, command=None, id=None, spiderfile=None):
     # TODO: finish all functionality
     if type is None:
         type = constants.Spider.CUSTOMIZED
@@ -84,7 +87,7 @@ def upload(type=None, directory=None, name=None, id=None, spiderfile=None):
         # customized spider
         if directory is None:
             directory = os.path.abspath(os.curdir)
-            client.upload_customized_spider(directory)
+            client.upload_customized_spider(directory, name, col, display_name,  command, id)
     elif type == constants.Spider.CONFIGURABLE:
         # configurable spider
         pass
@@ -96,6 +99,7 @@ if __name__ == '__main__':
     cli.add_command(login)
     cli.add_command(nodes)
     cli.add_command(schedules)
+    cli.add_command(tasks)
     cli.add_command(spiders)
     cli.add_command(upload)
 
