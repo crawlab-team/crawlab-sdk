@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='crawlab-sdk',
-    version='0.0.1',
+    version='0.0.2',
     packages=['core', 'cli', 'constants'],
     url='https://github.com/crawlab-team/crawlab-sdk',
     license='BSD-3-Clause',
@@ -18,6 +18,11 @@ setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
+    ],
+    install_requires=[
+        'Click==7.0',
+        'requests==2.22.0',
+        'prettytable==0.7.2',
     ],
     entry_points={
         'console_scripts': [
