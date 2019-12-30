@@ -1,0 +1,8 @@
+certifi==2019.11.28
+chardet==3.0.4
+Click==7.0
+crawlab-sdk==0.0.1
+idna==2.8
+prettytable==0.7.2
+requests==2.22.0
+urllib3==1.25.7
