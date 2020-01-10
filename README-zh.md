@@ -1,6 +1,6 @@
 # Crawlab SDK
 
-![](https://img.shields.io/github/workflow/status/crawlab-team/crawlab-sdk/Upload Python Package?logo=github)
+![](https://img.shields.io/github/workflow/status/crawlab-team/crawlab-sdk/Upload%20Python%20Package?logo=github)
 ![](https://img.shields.io/github/v/release/crawlab-team/crawlab-sdk)
 ![](https://img.shields.io/pypi/dm/crawlab-sdk?logo=pypi&logoColor=yellow)
 ![](https://img.shields.io/github/license/crawlab-team/crawlab-sdk)
