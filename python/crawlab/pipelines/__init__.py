@@ -1,14 +1,11 @@
-import os
-
 from crawlab.db import col
-
-TASK_ID = os.environ.get('CRAWLAB_TASK_ID')
+from crawlab.utils import get_task_id
 
 
 class CrawlabMongoPipeline(object):
     def process_item(self, item, spider):
         item_dict = dict(item)
-        item_dict['task_id'] = TASK_ID
+        item_dict['task_id'] = get_task_id()
         col.save(item_dict)
 
         return item
