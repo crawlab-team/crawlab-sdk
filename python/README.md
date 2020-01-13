@@ -26,4 +26,37 @@ crawlab --help
 
 ## Utility Tools
 
-TODO
+Utility tools mainly provide some `helper` methods to make it easier for you to integrate your spiders into Crawlab, e.g. saving results.
+
+Below are integration methods of Scrapy and general Python spiders with Crawlab.
+
+⚠️Note: make sure you have already installed `crawlab-sdk` using pip.
+
+##### Scrapy Integration
+
+In `settings.py` in your Scrapy project, find the variable named `ITEM_PIPELINES` (a `dict` variable). Add content below.
+
+```python
+ITEM_PIPELINES = {
+    'crawlab.pipelines.CrawlabMongoPipeline': 888,
+}
+```
+
+Then, start the Scrapy spider. After it's done, you should be able to see scraped results in **Task Detail -> Result**
+
+##### General Python Spider Integration
+
+Please add below content to your spider files to save results.
+
+```python
+# import result saving method
+from crawlab import save_item
+
+# this is a result record, must be dict type
+result = {'name': 'crawlab'}
+
+# call result saving method
+save_item(result)
+```
+
+Then, start the spider. After it's done, you should be able to see scraped results in **Task Detail -> Result**
