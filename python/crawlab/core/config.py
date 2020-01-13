@@ -2,14 +2,14 @@ import os
 import json
 import binascii
 
-from core import CRAWLAB_ROOT
+from crawlab.core import CRAWLAB_ROOT
 
 
 class Data(object):
     username = ''
     password = ''
     token = ''
-    api_address = 'http://localhost:8000'
+    api_address = 'http://localhost:8080/api'
 
     @property
     def dict(self):

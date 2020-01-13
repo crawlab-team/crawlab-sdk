@@ -3,9 +3,9 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 from prettytable import PrettyTable
 
-from core import CRAWLAB_TMP
-from core.config import config
-from core.request import Request
+from crawlab.core import CRAWLAB_TMP
+from crawlab.core.config import config
+from crawlab.core.request import Request
 
 
 def zip_dir(start_dir, target_path):

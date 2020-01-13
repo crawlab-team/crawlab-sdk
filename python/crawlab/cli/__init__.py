@@ -2,12 +2,22 @@ import os
 
 import click
 
-import constants
-from core.client import client
-from core.config import config
+from crawlab import constants
+from crawlab.core.client import client
+from crawlab.core.config import config
+from crawlab.config import VERSION
+
+
+def print_version(ctx, param, value):
+    if not value or ctx.resilient_parsing:
+        return
+    click.echo(f'v{VERSION}')
+    ctx.exit()
 
 
 @click.group()
+@click.option('--version', '-v', is_flag=True, callback=print_version, expose_value=False, is_eager=True,
+              help='show version of SDK')
 def cli():
     pass
 
@@ -69,7 +79,8 @@ def tasks(number=None):
 
 
 @click.command('upload', help='upload a spider')
-@click.option('--type', '-t', default=constants.Spider.CUSTOMIZED, help='spider type')
+@click.option('--type', '-t', type=click.Choice(['customized', 'configurable']), default=constants.Spider.CUSTOMIZED,
+              help='spider type')
 @click.option('--directory', '-d', help='directory path, for customized spiders')
 @click.option('--name', '-n', help='spider name')
 @click.option('--col', '-c', help='spider results collection')
