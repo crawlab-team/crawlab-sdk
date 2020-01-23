@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 import crawlab.config
 
-with open('README.rst', 'r') as f:
+with open('README.md', 'r') as f:
     long_description = f.read()
 
 setup(
@@ -15,6 +15,7 @@ setup(
     author_email='tikazyq@163.com',
     description='Python SDK for Crawlab',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     scripts=[],
     classifiers=[
         "Programming Language :: Python :: 3",
