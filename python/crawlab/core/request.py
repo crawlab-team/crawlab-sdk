@@ -8,7 +8,7 @@ class Request(object):
     @staticmethod
     def get_error(res):
         try:
-            return json.loads(res.content).get('error')
+            return json.loads(res.content)
         except Exception as err:
             print(err)
             return None

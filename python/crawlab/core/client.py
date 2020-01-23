@@ -84,7 +84,7 @@ class Client(object):
 
     @staticmethod
     def list_spiders():
-        data = Request.get('/spiders', {'page_size': 99999999})
+        data = Request.get('/spiders', {'page_num': 1, 'page_size': 99999999})
         if data.get('error'):
             print('error: ' + data.get('error'))
         items = (data.get('data').get('list') or []) if data.get('data') is not None else []
@@ -93,7 +93,7 @@ class Client(object):
 
     @staticmethod
     def list_schedules():
-        data = Request.get('/schedules', {'page_size': 99999999})
+        data = Request.get('/schedules', {'page_num': 1, 'page_size': 99999999})
         if data.get('error'):
             print('error: ' + data.get('error'))
         items = data.get('data') or []
@@ -102,7 +102,7 @@ class Client(object):
 
     @staticmethod
     def list_tasks(number=10):
-        data = Request.get('/tasks', {'page_size': number})
+        data = Request.get('/tasks', {'page_num': 1, 'page_size': number})
         if data.get('error'):
             print('error: ' + data.get('error'))
         items = data.get('data') or []
