@@ -18,7 +18,7 @@ The installation of the CLI Tool is simple:
 
 Then, you can use the `crawlab` command in the command prompt to action with Crawlab.
 
-Check the help document below, or you can refer to `the official documentation (Chinese) <http://docs.crawlab.cn/Usage/Spider/CLI.html>`.
+Check the help document below, or you can refer to `the official documentation (Chinese) <http://docs.crawlab.cn/Usage/Spider/CLI.html>`_.
 ::
 
     crawlab --help
