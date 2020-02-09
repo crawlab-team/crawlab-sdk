@@ -1,11 +1,10 @@
 const crawlab = require('../index');
 
 (async () => {
-  await crawlab.saveItem({
-    'hello': 'world'
-  })
-  await crawlab.saveItem({
-    'hello': 'world'
-  })
+  for (let i = 0; i < 10; i++) {
+    await crawlab.saveItem({
+      'hello': 'world'
+    })
+  }
   await crawlab.close()
 })()
