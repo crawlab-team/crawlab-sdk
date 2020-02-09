@@ -1,0 +1,29 @@
+{
+  "name": "crawlab-sdk",
+  "version": "0.0.2",
+  "description": "Node.js SDK for Crawlab",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crawlab-team/crawlab.git"
+  },
+  "keywords": [
+    "crawlab",
+    "spider",
+    "crawler",
+    "admin",
+    "platform"
+  ],
+  "author": "Marvin Zhang",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/crawlab-team/crawlab/issues"
+  },
+  "homepage": "https://github.com/crawlab-team/crawlab#readme",
+  "dependencies": {
+    "mongodb": "^3.5.2"
+  }
+}
