@@ -1,3 +1,17 @@
+# 0.0.9 (2020-02-10)
+
+### Features / Enhancement
+- **Added Node.js SDK**.
+
+### Bug Fixes
+
+# 0.0.8 (2020-01-23)
+
+### Features / Enhancement
+
+### Bug Fixes
+- **"crawlab spiders" error**. [Crawlab #458](https://github.com/crawlab-team/crawlab/issues/458)
+
 # 0.0.7 (2020-01-13)
 
 ### Features / Enhancement
