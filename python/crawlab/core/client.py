@@ -1,4 +1,8 @@
+import configparser
+import importlib
+import json
 import os
+import sys
 from zipfile import ZipFile, ZIP_DEFLATED
 
 from prettytable import PrettyTable
@@ -141,6 +145,23 @@ class Client(object):
     @staticmethod
     def upload_configurable_spider(directory=None, name=None, col=None, display_name=None, command=None, id=None):
         pass
+
+    @staticmethod
+    def settings(directory=None):
+        if directory is None:
+            directory = os.path.abspath(os.curdir)
+        os.chdir(directory)
+
+        cp = configparser.ConfigParser()
+        cp.read('scrapy.cfg')
+        mod_name = cp.get('settings', 'default')
+
+        sys.path.insert(0, directory)
+        settings = importlib.import_module(mod_name)
+        data = {}
+        for key in [key for key in dir(settings) if not key.startswith('__')]:
+            data[key] = getattr(settings, key)
+        print(json.dumps(data))
 
 
 client = Client()

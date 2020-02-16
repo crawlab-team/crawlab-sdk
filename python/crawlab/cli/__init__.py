@@ -103,11 +103,18 @@ def upload(type=None, directory=None, name=None, col=None, display_name=None, co
         pass
 
 
+@click.command('settings', help='get settings of a scrapy project')
+@click.option('--directory', '-d', help='directory path, for scrapy spiders')
+def settings(directory=None):
+    client.settings(directory)
+
+
 def main():
     cli.add_command(check)
     cli.add_command(config_)
     cli.add_command(login)
     cli.add_command(nodes)
+    cli.add_command(settings)
     cli.add_command(schedules)
     cli.add_command(tasks)
     cli.add_command(spiders)
