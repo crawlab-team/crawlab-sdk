@@ -1,3 +1,9 @@
+# 0.1.0 (2020-02-16)
+### Features / Enhancement
+- **Added Scrapy Settings for Scrapy Project**. 
+
+### Bug Fixes
+
 # 0.0.9 (2020-02-10)
 
 ### Features / Enhancement
