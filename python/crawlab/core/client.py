@@ -158,9 +158,12 @@ class Client(object):
 
         sys.path.insert(0, directory)
         settings = importlib.import_module(mod_name)
-        data = {}
+        data = []
         for key in [key for key in dir(settings) if not key.startswith('__')]:
-            data[key] = getattr(settings, key)
+            data.append({
+                'key': key,
+                'value': getattr(settings, key),
+            })
         print(json.dumps(data))
 
 
