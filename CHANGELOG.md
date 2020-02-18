@@ -1,3 +1,9 @@
+# 0.1.1 (2020-02-18)
+### Features / Enhancement
+- **Scrapy Settings Command Output Update**. 
+
+### Bug Fixes
+
 # 0.1.0 (2020-02-16)
 ### Features / Enhancement
 - **Added Scrapy Settings for Scrapy Project**. 
