@@ -5,13 +5,12 @@ import os
 import sys
 from zipfile import ZipFile, ZIP_DEFLATED
 
-import scrapy
 from prettytable import PrettyTable
 
 from crawlab.core import CRAWLAB_TMP
 from crawlab.core.config import config
 from crawlab.core.request import Request
-from crawlab.utils.scrapy import get_scrapy_cfg
+from crawlab.utils.scrapy import get_scrapy_cfg, get_items_fields, get_pipelines, get_spider_filepath
 
 
 def zip_dir(start_dir, target_path):
@@ -185,22 +184,47 @@ class Client(object):
         sys.path.insert(0, directory)
         items = importlib.import_module(items_mod_name)
 
-        data = []
-        for key in [key for key in dir(items) if not key.startswith('__')]:
-            cls = getattr(items, key)
-            try:
-                if isinstance(cls(), scrapy.Item):
-                    d = {
-                        'name': key,
-                        'fields': []
-                    }
-                    if hasattr(cls, 'fields'):
-                        d['fields'] = list(cls.fields.keys())
-                    data.append(d)
-            except:
-                pass
-
+        # get list of all items fields
+        data = get_items_fields(items)
         print(json.dumps(data))
+
+    @staticmethod
+    def pipelines(directory=None, name=None, delete=None):
+        if directory is None:
+            directory = os.path.abspath(os.curdir)
+        os.chdir(directory)
+
+        cp = get_scrapy_cfg()
+
+        settings_mod_name = cp.get('settings', 'default')
+        project_name = settings_mod_name.split('.')[0]
+        pipelines_mod_name = f'{project_name}.pipelines'
+
+        sys.path.insert(0, directory)
+        pipelines = importlib.import_module(pipelines_mod_name)
+
+        # get list of all pipelines
+        if name is None:
+            data = get_pipelines(pipelines)
+            print(json.dumps(data))
+
+    @staticmethod
+    def find_spider_filepath(directory=None, name=None):
+        if directory is None:
+            directory = os.path.abspath(os.curdir)
+        os.chdir(directory)
+        sys.path.insert(0, directory)
+
+        cp = get_scrapy_cfg()
+
+        settings_mod_name = cp.get('settings', 'default')
+        project_name = settings_mod_name.split('.')[0]
+
+        spiders_path = os.path.join(directory, project_name, 'spiders')
+        filenames = os.listdir(spiders_path)
+
+        filepath = get_spider_filepath(filenames, project_name, name)
+        print(filepath)
 
 
 client = Client()

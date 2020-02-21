@@ -115,12 +115,32 @@ def items(directory=None):
     client.items(directory)
 
 
+@click.command('pipelines', help='get pipelines of a scrapy project')
+@click.option('--directory', '-d', help='directory path, for scrapy spiders')
+@click.option('--name', '-n', help='pipeline name')
+@click.option('--delete', '-D', help='whether to delete the pipeline')
+def pipelines(directory=None, name=None, delete=None):
+    client.pipelines(directory, name, delete)
+
+
+@click.command('find_spider_filepath', help='get filepath from spider name of a scrapy project')
+@click.option('--directory', '-d', help='directory path, for scrapy spiders')
+@click.option('--spider_name', '-n', help='spider name')
+def find_spider_filepath(directory=None, spider_name=None):
+    if spider_name is None:
+        print('spider_name is required')
+        return
+    client.find_spider_filepath(directory, spider_name)
+
+
 def main():
     cli.add_command(check)
     cli.add_command(config_)
+    cli.add_command(find_spider_filepath)
     cli.add_command(items)
     cli.add_command(login)
     cli.add_command(nodes)
+    cli.add_command(pipelines)
     cli.add_command(settings)
     cli.add_command(schedules)
     cli.add_command(tasks)
