@@ -109,9 +109,16 @@ def settings(directory=None):
     client.settings(directory)
 
 
+@click.command('items', help='get items of a scrapy project')
+@click.option('--directory', '-d', help='directory path, for scrapy spiders')
+def items(directory=None):
+    client.items(directory)
+
+
 def main():
     cli.add_command(check)
     cli.add_command(config_)
+    cli.add_command(items)
     cli.add_command(login)
     cli.add_command(nodes)
     cli.add_command(settings)

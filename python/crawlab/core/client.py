@@ -5,11 +5,13 @@ import os
 import sys
 from zipfile import ZipFile, ZIP_DEFLATED
 
+import scrapy
 from prettytable import PrettyTable
 
 from crawlab.core import CRAWLAB_TMP
 from crawlab.core.config import config
 from crawlab.core.request import Request
+from crawlab.utils.scrapy import get_scrapy_cfg
 
 
 def zip_dir(start_dir, target_path):
@@ -152,18 +154,52 @@ class Client(object):
             directory = os.path.abspath(os.curdir)
         os.chdir(directory)
 
-        cp = configparser.ConfigParser()
-        cp.read('scrapy.cfg')
-        mod_name = cp.get('settings', 'default')
+        cp = get_scrapy_cfg()
+
+        settings_mod_name = cp.get('settings', 'default')
 
         sys.path.insert(0, directory)
-        settings = importlib.import_module(mod_name)
+        settings = importlib.import_module(settings_mod_name)
+
         data = []
         for key in [key for key in dir(settings) if not key.startswith('__')]:
             data.append({
                 'key': key,
                 'value': getattr(settings, key),
             })
+
+        print(json.dumps(data))
+
+    @staticmethod
+    def items(directory=None):
+        if directory is None:
+            directory = os.path.abspath(os.curdir)
+        os.chdir(directory)
+
+        cp = get_scrapy_cfg()
+
+        settings_mod_name = cp.get('settings', 'default')
+        project_name = settings_mod_name.split('.')[0]
+        items_mod_name = f'{project_name}.items'
+
+        sys.path.insert(0, directory)
+        items = importlib.import_module(items_mod_name)
+
+        data = []
+        for key in [key for key in dir(items) if not key.startswith('__')]:
+            cls = getattr(items, key)
+            try:
+                if isinstance(cls(), scrapy.Item):
+                    d = {
+                        'name': key,
+                        'fields': []
+                    }
+                    if hasattr(cls, 'fields'):
+                        d['fields'] = list(cls.fields.keys())
+                    data.append(d)
+            except:
+                pass
+
         print(json.dumps(data))
 
 
