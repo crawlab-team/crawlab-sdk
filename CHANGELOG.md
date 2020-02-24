@@ -1,3 +1,9 @@
+# 0.1.3 (2020-02-24)
+### Features / Enhancement
+
+### Bug Fixes
+- **Import Spider Error**. 
+
 # 0.1.2 (2020-02-21)
 ### Features / Enhancement
 - **Add More Scrapy Support**. 
