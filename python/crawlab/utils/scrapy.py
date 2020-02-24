@@ -50,7 +50,10 @@ def get_pipelines(pipelines):
 def get_spider_filepath(filenames, project_name, name):
     for filename in filenames:
         mod_name = filename.replace('.py', '')
-        spider_file = importlib.import_module(f'{project_name}.spiders.{mod_name}')
+        try:
+            spider_file = importlib.import_module(f'{project_name}.spiders.{mod_name}')
+        except:
+            continue
         for key in dir(spider_file):
             try:
                 cls = getattr(spider_file, key)
