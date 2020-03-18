@@ -19,7 +19,7 @@ pip install crawlab-sdk
 然后，您就可以用 `crawlab` 这个命令在命令行中与 Crawlab 交互了。
 
 可以利用下方命令来查找帮助，或者您可以参考 
-[官方文档](http://docs.crawlab.cn/Usage/Spider/CLI.html)。
+[官方文档](https://docs.crawlab.cn/SDK/CLI.html)。
 
 ```
 crawlab --help
