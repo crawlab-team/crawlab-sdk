@@ -18,7 +18,7 @@ pip install crawlab-sdk
 
 Then, you can use the `crawlab` command in the command prompt to action with Crawlab.
 
-Check the help document below, or you can refer to [the official documentation (Chinese)](http://docs.crawlab.cn/Usage/Spider/CLI.html). 
+Check the help document below, or you can refer to [the official documentation (Chinese)](https://docs.crawlab.cn/SDK/CLI.html). 
 
 ```
 crawlab --help
