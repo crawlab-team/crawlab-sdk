@@ -11,7 +11,8 @@ class Request(object):
             return json.loads(res.content)
         except Exception as err:
             print(err)
-            return None
+            print(res.content)
+            return {'error': 'not json content'}
 
     @staticmethod
     def get(path, params=None):
@@ -74,9 +75,10 @@ class Request(object):
 
     @staticmethod
     def upload(path=None, file=None, data=None):
+        url = f'{config.data.api_address}{path}'
         try:
             res = requests.post(
-                f'{config.data.api_address}{path}',
+                url,
                 headers={'Authorization': config.data.token},
                 data=data,
                 files={
@@ -84,7 +86,6 @@ class Request(object):
                 }
             )
         except requests.exceptions.ConnectionError as err:
-            print(f'error: {err}')
             return {'error': err}
         if res.status_code != 200:
             return Request.get_error(res)

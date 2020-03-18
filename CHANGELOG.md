@@ -1,3 +1,9 @@
+# 0.1.5 (2020-03-18)
+### Features / Enhancement
+
+### Bug Fixes
+- **CLI unable to use on Windows**. [#580](https://github.com/crawlab-team/crawlab/issues/580)
+
 # 0.1.3 (2020-02-24)
 ### Features / Enhancement
 
