@@ -1,9 +1,16 @@
 import os
 
-if os.name == 'nt':
-    home = os.environ.get('HOMEPATH')
+home = os.curdir
+
+if 'HOME' in os.environ:
+    home = os.environ['HOME']
+elif os.name == 'posix':
+    home = os.path.expanduser("~/")
+elif os.name == 'nt':
+    if 'HOMEPATH' in os.environ and 'HOMEDRIVE' in os.environ:
+        home = os.environ['HOMEDRIVE'] + os.environ['HOMEPATH']
 else:
-    home = os.environ.get('HOME')
+    home = os.environ['HOMEPATH']
 
 CRAWLAB_ROOT = os.path.join(home, '.crawlab')
 CRAWLAB_TMP = os.path.join(CRAWLAB_ROOT, 'tmp')
