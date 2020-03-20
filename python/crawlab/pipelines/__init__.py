@@ -1,5 +1,8 @@
-from crawlab.db import col
-from crawlab.utils import get_task_id
+try:
+    from crawlab.db import col
+    from crawlab.utils import get_task_id
+except:
+    pass
 
 
 class CrawlabMongoPipeline(object):

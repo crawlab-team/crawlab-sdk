@@ -6,7 +6,9 @@ def get_task_id():
 
 
 def save_item(item):
-    from crawlab.db import col
-
-    item['task_id'] = get_task_id()
-    col.save(item)
+    try:
+        from crawlab.db import col
+        item['task_id'] = get_task_id()
+        col.save(item)
+    except:
+        pass
