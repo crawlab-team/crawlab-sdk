@@ -1,3 +1,9 @@
+# 0.1.6 (2020-03-20)
+### Features / Enhancement
+
+### Bug Fixes
+- **Compatibility issue with scrapy spider**.
+
 # 0.1.5 (2020-03-19)
 ### Features / Enhancement
 
