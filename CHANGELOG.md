@@ -1,3 +1,9 @@
+# 0.1.7 (TBC)
+### Features / Enhancement
+- **Results De-duplication Support**.
+
+### Bug Fixes
+
 # 0.1.6 (2020-03-20)
 ### Features / Enhancement
 
