@@ -1,4 +1,4 @@
-# 0.1.7 (TBC)
+# 0.1.7 (2020-03-31)
 ### Features / Enhancement
 - **Results De-duplication Support**.
 
