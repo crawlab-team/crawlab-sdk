@@ -6,3 +6,10 @@ class Spider:
 class DedupMethod:
     OVERWRITE = 'overwrite'
     IGNORE = 'ignore'
+
+
+class DataSourceType:
+    MONGO = 'mongo'
+    MYSQL = 'mysql'
+    POSTGRES = 'postgres'
+    SQLSERVER = 'sqlserver'
