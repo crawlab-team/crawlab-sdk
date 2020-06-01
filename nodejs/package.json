@@ -1,6 +1,6 @@
 {
   "name": "crawlab-sdk",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "Node.js SDK for Crawlab",
   "main": "index.js",
   "scripts": {
