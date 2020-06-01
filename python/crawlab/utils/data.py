@@ -18,7 +18,10 @@ def save_item_mongo(item):
         dedup_method = get_dedup_method()
         if dedup_method == DedupMethod.OVERWRITE:
             # 覆盖
-            col.replace_one({dedup_field: item[dedup_field]}, item)
+            if col.find_one({dedup_field: item[dedup_field]}):
+                col.replace_one({dedup_field: item[dedup_field]}, item)
+            else:
+                col.save(item)
         elif dedup_method == DedupMethod.IGNORE:
             # 忽略
             col.save(item)

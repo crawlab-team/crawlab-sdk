@@ -1,3 +1,9 @@
+# 0.2.0 (2020-06-01)
+### Features / Enhancement
+- **MySQL and Postgres Integration**.
+
+### Bug Fixes
+
 # 0.1.7 (2020-03-31)
 ### Features / Enhancement
 - **Results De-duplication Support**.
