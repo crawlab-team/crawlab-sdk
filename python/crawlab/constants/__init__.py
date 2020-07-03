@@ -13,3 +13,4 @@ class DataSourceType:
     MYSQL = 'mysql'
     POSTGRES = 'postgres'
     SQLSERVER = 'sqlserver'
+    KAFKA = 'kafka'

@@ -26,10 +26,11 @@ setup(
         'Click==7.0',
         'requests==2.22.0',
         'prettytable==0.7.2',
-        'scrapy==1.8.0',
+        'scrapy==2.2.0',
         'pymongo==3.10.1',
         'pymysql==0.9.3',
         'psycopg2-binary==2.8.5',
+        'kafka-python==2.0.1',
     ],
     entry_points={
         'console_scripts': [
