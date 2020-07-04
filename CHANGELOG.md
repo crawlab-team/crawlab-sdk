@@ -1,3 +1,7 @@
+# 0.3.0 (2020-07-04)
+### Features / Enhancement
+- **Kafka and ElasticSearch Integration** (Python only).
+
 # 0.2.0 (2020-06-01)
 ### Features / Enhancement
 - **MySQL and Postgres Integration**.
