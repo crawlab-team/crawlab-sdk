@@ -14,3 +14,4 @@ class DataSourceType:
     POSTGRES = 'postgres'
     SQLSERVER = 'sqlserver'
     KAFKA = 'kafka'
+    ELASTICSEARCH = 'es'

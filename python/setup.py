@@ -31,6 +31,7 @@ setup(
         'pymysql==0.9.3',
         'psycopg2-binary==2.8.5',
         'kafka-python==2.0.1',
+        'elasticsearch==7.8.0',
     ],
     entry_points={
         'console_scripts': [

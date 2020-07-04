@@ -1,4 +1,5 @@
 from crawlab.constants import DedupMethod
+from crawlab.db.es import index_item
 from crawlab.db.kafka import send_msg
 from crawlab.db.sql import insert_item
 from crawlab.utils.config import get_task_id, get_is_dedup, get_dedup_field, get_dedup_method
@@ -42,3 +43,8 @@ def save_item_sql(item):
 def save_item_kafka(item):
     item['task_id'] = get_task_id()
     send_msg(item)
+
+
+def save_item_es(item):
+    item['task_id'] = get_task_id()
+    index_item(item)
