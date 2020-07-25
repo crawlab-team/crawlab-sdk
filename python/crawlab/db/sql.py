@@ -77,3 +77,80 @@ def insert_item(item: dict):
         insert_item_sqlserver(item)
     else:
         raise NotImplementedError(f'{ds_type} is not implemented')
+
+
+def _update_item(item: dict, dedup_field: str):
+    conn = get_conn()
+    table_name = get_collection()
+    if table_name is None:
+        raise Exception('table_name is empty')
+    update_str = ','.join([f'{k}=\'{v}\'' for k, v in item.items()])
+    sql_str = f'UPDATE {table_name} SET {update_str} WHERE {dedup_field} = \'{item[dedup_field]}\';'
+    cursor = conn.cursor()
+    cursor.execute(sql_str)
+    conn.commit()
+    cursor.close()
+
+
+def update_item_mysql(item: dict, dedup_field: str):
+    _update_item(item, dedup_field)
+
+
+def update_item_postgres(item: dict, dedup_field: str):
+    _update_item(item, dedup_field)
+
+
+def update_item_sqlserver(item: dict, dedup_field: str):
+    raise NotImplementedError('sqlserver is not implemented')
+
+
+def update_item(item: dict, dedup_field: str):
+    ds_type = get_data_source_type()
+    if ds_type == DataSourceType.MYSQL:
+        update_item_mysql(item, dedup_field)
+    elif ds_type == DataSourceType.POSTGRES:
+        update_item_postgres(item, dedup_field)
+    elif ds_type == DataSourceType.SQLSERVER:
+        update_item_sqlserver(item, dedup_field)
+    else:
+        raise NotImplementedError(f'{ds_type} is not implemented')
+
+
+def _get_item(key: str, value: str) -> dict:
+    conn = get_conn()
+    table_name = get_collection()
+    if table_name is None:
+        raise Exception('table_name is empty')
+    sql_str = f'SELECT * FROM {table_name} WHERE {key} = \'{value}\'';
+    cursor = conn.cursor()
+    cursor.execute(sql_str)
+    conn.commit()
+    res = cursor.fetchone()
+    cursor.close()
+    return res
+
+
+def get_item_mysql(key: str, value: str) -> dict:
+    return _get_item(key, value)
+
+
+def get_item_postgres(key: str, value: str) -> dict:
+    return _get_item(key, value)
+
+
+def get_item_sqlserver(key: str, value: str) -> dict:
+    raise NotImplementedError('sqlserver is not implemented')
+
+
+def get_item(item: dict, dedup_field: str) -> dict:
+    ds_type = get_data_source_type()
+    key = dedup_field
+    value = item[dedup_field]
+    if ds_type == DataSourceType.MYSQL:
+        return get_item_mysql(key, value)
+    elif ds_type == DataSourceType.POSTGRES:
+        return get_item_postgres(key, value)
+    elif ds_type == DataSourceType.SQLSERVER:
+        return get_item_sqlserver(key, value)
+    else:
+        raise NotImplementedError(f'{ds_type} is not implemented')

@@ -2,7 +2,7 @@ from crawlab.constants import DedupMethod
 from crawlab.db.es import index_item
 from crawlab.db.kafka import send_msg
 from crawlab.db.mongo import get_col
-from crawlab.db.sql import insert_item
+from crawlab.db.sql import insert_item, get_item, update_item
 from crawlab.utils.config import get_task_id, get_is_dedup, get_dedup_field, get_dedup_method
 
 
@@ -37,8 +37,31 @@ def save_item_mongo(item):
 
 
 def save_item_sql(item):
+    # 是否开启去重
+    is_dedup = get_is_dedup()
+
+    # 赋值task_id
     item['task_id'] = get_task_id()
-    insert_item(item)
+
+    if is_dedup == '1':
+        # 去重
+        dedup_field = get_dedup_field()
+        dedup_method = get_dedup_method()
+        if dedup_method == DedupMethod.OVERWRITE:
+            # 覆盖
+            if get_item(item, dedup_field):
+                update_item(item, dedup_field)
+            else:
+                insert_item(item)
+        elif dedup_method == DedupMethod.IGNORE:
+            # 忽略
+            insert_item(item)
+        else:
+            # 其他
+            insert_item(item)
+    else:
+        # 不去重
+        insert_item(item)
 
 
 def save_item_kafka(item):
