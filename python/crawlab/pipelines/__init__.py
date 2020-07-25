@@ -1,4 +1,3 @@
-from crawlab.db import col
 from crawlab.utils import save_item_mongo
 from crawlab.utils.config import get_task_id
 

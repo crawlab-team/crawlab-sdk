@@ -1,12 +1,13 @@
 from crawlab.constants import DedupMethod
 from crawlab.db.es import index_item
 from crawlab.db.kafka import send_msg
+from crawlab.db.mongo import get_col
 from crawlab.db.sql import insert_item
 from crawlab.utils.config import get_task_id, get_is_dedup, get_dedup_field, get_dedup_method
 
 
 def save_item_mongo(item):
-    from crawlab.db import col
+    col = get_col()
 
     # 赋值task_id
     item['task_id'] = get_task_id()
