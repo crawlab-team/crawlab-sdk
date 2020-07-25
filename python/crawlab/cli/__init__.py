@@ -97,7 +97,7 @@ def upload(type=None, directory=None, name=None, col=None, display_name=None, co
         # customized spider
         if directory is None:
             directory = os.path.abspath(os.curdir)
-            client.upload_customized_spider(directory, name, col, display_name, command, id)
+        client.upload_customized_spider(directory, name, col, display_name, command, id)
     elif type == constants.Spider.CONFIGURABLE:
         # configurable spider
         pass
