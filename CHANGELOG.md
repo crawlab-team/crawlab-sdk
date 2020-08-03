@@ -1,3 +1,9 @@
+# 0.3.2 (TBC)
+### Features / Enhancement
+- **Added `.gitignore`-style `.crawlabignore` file**.
+
+### Bug Fixes
+
 # 0.3.0 (2020-07-04)
 ### Features / Enhancement
 - **Kafka and ElasticSearch Integration** (Python only).

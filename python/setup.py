@@ -32,6 +32,7 @@ setup(
         'psycopg2-binary==2.8.5',
         'kafka-python==2.0.1',
         'elasticsearch==7.8.0',
+	'pathspec==0.8.0',
     ],
     entry_points={
         'console_scripts': [

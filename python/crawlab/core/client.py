@@ -5,12 +5,15 @@ import os
 import sys
 from zipfile import ZipFile, ZIP_DEFLATED
 
+import pathspec
 from prettytable import PrettyTable
 
 from crawlab.core import CRAWLAB_TMP
 from crawlab.core.config import config
 from crawlab.core.request import Request
 from crawlab.utils.scrapy import get_scrapy_cfg, get_items_fields, get_pipelines, get_spider_filepath
+
+ignore_matches = None
 
 
 def zip_dir(start_dir, target_path):
@@ -22,6 +25,8 @@ def zip_dir(start_dir, target_path):
         f_path = dir_path.replace(start_dir, '')  # 这一句很重要，不replace的话，就从根目录开始复制
         f_path = f_path and f_path + os.sep or ''  # 实现当前文件夹以及包含的所有文件的压缩
         for filename in file_names:
+            if is_ignored(os.path.join(start_dir, dir_path, filename)):
+                continue
             print(f_path + filename)
             z.write(os.path.join(dir_path, filename), f_path + filename)
     z.close()
@@ -46,6 +51,26 @@ def zip_file_path(input_path, target_path):
         f.write(file)
     f.close()
     return target_path
+
+
+def get_ignore_matches():
+    global ignore_matches
+    ignore_file = os.path.join(os.path.abspath(os.curdir), '.crawlabignore')
+    if not os.path.exists(ignore_file):
+        return None
+    if ignore_matches is not None:
+        return ignore_matches
+    with open(ignore_file, 'r') as fh:
+        spec = pathspec.PathSpec.from_lines('gitwildmatch', fh)
+    ignore_matches = spec
+    return ignore_matches
+
+
+def is_ignored(file_name: str) -> bool:
+    matches = get_ignore_matches()
+    if matches is None:
+        return False
+    return matches.match_file(file_name)
 
 
 class Client(object):
