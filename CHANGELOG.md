@@ -1,4 +1,4 @@
-# 0.3.2 (TBC)
+# 0.3.2 (2020-08-05)
 ### Features / Enhancement
 - **Added `.gitignore`-style `.crawlabignore` file**.
 
