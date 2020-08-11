@@ -1,3 +1,7 @@
+# 0.3.3 (2020-08-11)
+### Features / Enhancement
+- **Added Golang SDK**.
+
 # 0.3.2 (2020-08-05)
 ### Features / Enhancement
 - **Added `.gitignore`-style `.crawlabignore` file**.
