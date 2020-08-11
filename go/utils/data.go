@@ -1,10 +1,10 @@
 package utils
 
 import (
-	"crawlab_sdk/constants"
-	"crawlab_sdk/database"
-	"crawlab_sdk/entity"
 	"github.com/apex/log"
+	"github.com/crawlab-team/crawlab-sdk/go/constants"
+	"github.com/crawlab-team/crawlab-sdk/go/database"
+	"github.com/crawlab-team/crawlab-sdk/go/entity"
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
 	"runtime/debug"
@@ -140,11 +140,15 @@ func SaveItemSql(item entity.Item) error {
 }
 
 func SaveItemKafka(item entity.Item) error {
-	// TODO: implement SaveItemKafka
+	if err := database.SendKafkaMsg(item); err != nil {
+		return err
+	}
 	return nil
 }
 
 func SaveItemElasticSearch(item entity.Item) error {
-	// TODO: implement SaveItemElasticSearch
+	if err := database.IndexItem(item); err != nil {
+		return err
+	}
 	return nil
 }

@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"crawlab_sdk/entity"
 	"encoding/json"
+	"github.com/crawlab-team/crawlab-sdk/go/entity"
 	"os"
 )
 

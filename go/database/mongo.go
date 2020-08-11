@@ -1,8 +1,8 @@
 package database
 
 import (
-	"crawlab_sdk/utils"
 	"github.com/apex/log"
+	"github.com/crawlab-team/crawlab-sdk/go/utils"
 	"github.com/globalsign/mgo"
 	"net"
 	"os"

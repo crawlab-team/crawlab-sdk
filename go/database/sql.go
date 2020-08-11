@@ -1,12 +1,12 @@
 package database
 
 import (
-	"crawlab_sdk/constants"
-	"crawlab_sdk/entity"
-	"crawlab_sdk/utils"
 	"errors"
 	"fmt"
 	"github.com/apex/log"
+	"github.com/crawlab-team/crawlab-sdk/go/constants"
+	"github.com/crawlab-team/crawlab-sdk/go/entity"
+	"github.com/crawlab-team/crawlab-sdk/go/utils"
 	"github.com/jmoiron/sqlx"
 	"runtime/debug"
 	"strings"
