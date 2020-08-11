@@ -14,16 +14,20 @@ func SaveItem(item entity.Item) (err error) {
 	dsType := GetDataSourceType()
 	if dsType == constants.DataSourceTypeMongo {
 		if err := SaveItemMongo(item); err != nil {
-			log.Errorf("save item error: " + err.Error())
-			debug.PrintStack()
 			return err
 		}
-		return nil
 	} else if dsType == constants.DataSourceTypeKafka {
 		if err := SaveItemKafka(item); err != nil {
-
+			return err
 		}
 	} else if dsType == constants.DataSourceTypeElasticSearch {
+		if err := SaveItemElasticSearch(item); err != nil {
+			return err
+		}
+	} else {
+		if err := SaveItemSql(item); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -49,7 +53,6 @@ func SaveItemMongo(item entity.Item) (err error) {
 						debug.PrintStack()
 						return err
 					}
-					return nil
 				} else {
 					log.Errorf("find item error: " + err.Error())
 					debug.PrintStack()
@@ -62,7 +65,6 @@ func SaveItemMongo(item entity.Item) (err error) {
 					debug.PrintStack()
 					return err
 				}
-				return nil
 			}
 		} else if dedupMethod == constants.DedupMethodIgnore {
 			// 忽略
@@ -71,7 +73,6 @@ func SaveItemMongo(item entity.Item) (err error) {
 				debug.PrintStack()
 				return err
 			}
-			return nil
 		} else {
 			// 其他
 			if err := c.Insert(item); err != nil {
@@ -87,13 +88,54 @@ func SaveItemMongo(item entity.Item) (err error) {
 			debug.PrintStack()
 			return err
 		}
-		return nil
 	}
 	return nil
 }
 
 func SaveItemSql(item entity.Item) error {
-	// TODO: implement SaveItemSql
+	item["task_id"] = GetTaskId()
+
+	isDedup := GetIsDedup()
+
+	if isDedup == "1" {
+		// 去重
+		dedupField := GetDedupField()
+		dedupMethod := GetDedupMethod()
+		if dedupMethod == constants.DedupMethodOverwrite {
+			// 覆盖
+			_item, _ := database.GetItem(dedupField, item[dedupField].(string))
+			if _item == nil {
+				// 不存在
+				if err := database.InsertItem(item); err != nil {
+					log.Errorf("save item error: " + err.Error())
+					debug.PrintStack()
+					return err
+				}
+			} else {
+				// 已存在
+				if err := database.UpdateItem(item, dedupField); err != nil {
+					log.Errorf("save item error: " + err.Error())
+					debug.PrintStack()
+					return err
+				}
+			}
+		} else if dedupMethod == constants.DedupMethodIgnore {
+			// 忽略
+			if err := database.InsertItem(item); err != nil {
+				log.Errorf("save item error: " + err.Error())
+				debug.PrintStack()
+				return err
+			}
+		}
+	} else {
+		// 不去重
+		if err := database.InsertItem(item); err != nil {
+			log.Errorf("save item error: " + err.Error())
+			debug.PrintStack()
+			return err
+		}
+	}
+
 	return nil
 }
 
