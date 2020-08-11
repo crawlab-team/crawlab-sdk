@@ -1,1 +1,0 @@
-module github.com/crawlab-team/crawlab-sdk
