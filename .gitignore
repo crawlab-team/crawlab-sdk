@@ -8,3 +8,4 @@ build
 *.egg-info
 __pycache__
 **/_trial_temp
+vendor
