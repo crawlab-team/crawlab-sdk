@@ -2,7 +2,7 @@ package test
 
 import (
 	"context"
-	"github.com/crawlab-team/crawlab-go-sdk/entity"
+	"github.com/crawlab-team/crawlab-sdk/entity"
 	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"

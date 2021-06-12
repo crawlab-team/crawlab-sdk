@@ -1,8 +1,8 @@
 package main
 
 import (
-	sdk "github.com/crawlab-team/crawlab-go-sdk"
-	"github.com/crawlab-team/crawlab-go-sdk/entity"
+	sdk "github.com/crawlab-team/crawlab-sdk"
+	"github.com/crawlab-team/crawlab-sdk/entity"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"os"
 	"time"

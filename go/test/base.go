@@ -2,8 +2,8 @@ package test
 
 import (
 	"context"
-	sdk "github.com/crawlab-team/crawlab-go-sdk"
-	"github.com/crawlab-team/crawlab-go-sdk/interfaces"
+	sdk "github.com/crawlab-team/crawlab-sdk"
+	"github.com/crawlab-team/crawlab-sdk/interfaces"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

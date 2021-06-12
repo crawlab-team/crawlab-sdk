@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"github.com/apex/log"
 	"github.com/cenkalti/backoff/v4"
-	"github.com/crawlab-team/crawlab-go-sdk/entity"
-	"github.com/crawlab-team/crawlab-go-sdk/interfaces"
 	grpc "github.com/crawlab-team/crawlab-grpc"
+	"github.com/crawlab-team/crawlab-sdk/entity"
+	"github.com/crawlab-team/crawlab-sdk/interfaces"
 	"github.com/crawlab-team/go-trace"
 	"time"
 )
