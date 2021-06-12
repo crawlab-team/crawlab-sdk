@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"os"
 	"testing"
+	"time"
 )
 
 func init() {
@@ -22,35 +23,50 @@ func init() {
 var T *Test
 
 type Test struct {
-	c           *mongo.Client
-	db          *mongo.Database
-	col         *mongo.Collection
-	colDc       *mongo.Collection
-	TestDbName  string
-	TestColName string
-	TestDcId    primitive.ObjectID
-	TestDc      bson.M
-	TestTaskId  primitive.ObjectID
-	resultSvc   interfaces.ResultService
+	c            *mongo.Client
+	db           *mongo.Database
+	col          *mongo.Collection
+	colDc        *mongo.Collection
+	TestDbName   string
+	TestColName  string
+	TestTaskId   primitive.ObjectID
+	TestSpiderId primitive.ObjectID
+	TestDcId     primitive.ObjectID
+	TestDc       bson.M
+	resultSvc    interfaces.ResultService
 }
 
 func (t *Test) Setup(t2 *testing.T) {
 	if err := t.c.Connect(context.Background()); err != nil {
 		panic(err)
 	}
-	_, err := t.c.Database(t.TestDbName).Collection("data_collections").InsertOne(context.Background(), t.TestDc)
-	if err != nil {
+	if _, err := t.colDc.InsertOne(context.Background(), t.TestDc); err != nil {
+		panic(err)
+	}
+	if _, err := t.db.Collection("tasks").InsertOne(context.Background(), bson.M{"_id": t.TestTaskId, "spider_id": t.TestSpiderId}); err != nil {
+		panic(err)
+	}
+	if _, err := t.db.Collection("spiders").InsertOne(context.Background(), bson.M{"_id": t.TestSpiderId, "col_id": t.TestDcId}); err != nil {
+		panic(err)
+	}
+	if _, err := t.db.Collection("artifacts").InsertOne(context.Background(), bson.M{"_id": t.TestSpiderId}); err != nil {
 		panic(err)
 	}
 	if err := os.Setenv(sdk.TaskIdKey, t.TestTaskId.Hex()); err != nil {
 		panic(err)
 	}
+	if err := os.Setenv("mongo.db", "crawlab_test"); err != nil {
+		panic(err)
+	}
+	time.Sleep(100 * time.Millisecond)
 	t2.Cleanup(t.Cleanup)
 }
 
 func (t *Test) Cleanup() {
 	_ = t.col.Drop(context.Background())
-	_ = t.colDc.Drop(context.Background())
+	_, _ = t.colDc.DeleteOne(context.Background(), bson.M{"_id": t.TestDcId})
+	_, _ = t.db.Collection("spiders").DeleteOne(context.Background(), bson.M{"_id": t.TestSpiderId})
+	_, _ = t.db.Collection("tasks").DeleteOne(context.Background(), bson.M{"_id": t.TestTaskId})
 	_ = t.c.Disconnect(context.Background())
 }
 
@@ -59,12 +75,13 @@ func NewTest() (t *Test, err error) {
 
 	t.TestDbName = "crawlab_test"
 	t.TestColName = "test_results"
+	t.TestTaskId = primitive.NewObjectID()
+	t.TestSpiderId = primitive.NewObjectID()
 	t.TestDcId = primitive.NewObjectID()
 	t.TestDc = bson.M{
 		"_id":  t.TestDcId,
 		"name": t.TestColName,
 	}
-	t.TestTaskId = primitive.NewObjectID()
 
 	t.c, err = mongo.NewClient()
 	if err != nil {
