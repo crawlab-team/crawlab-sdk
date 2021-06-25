@@ -25,6 +25,20 @@ func (svc *ResultService) SaveItems(items []entity.Result) {
 }
 
 func (svc *ResultService) save(items []entity.Result) {
+	var _items []entity.Result
+	for i, item := range items {
+		_items = append(_items, item)
+		if i > 0 && i%50 == 0 {
+			svc._save(_items)
+			_items = []entity.Result{}
+		}
+	}
+	if len(_items) > 0 {
+		svc._save(_items)
+	}
+}
+
+func (svc *ResultService) _save(items []entity.Result) {
 	// skip if no task id specified
 	if GetTaskId().IsZero() {
 		return
@@ -32,6 +46,7 @@ func (svc *ResultService) save(items []entity.Result) {
 
 	var records []interface{}
 	for _, item := range items {
+		item["_tid"] = GetTaskId()
 		records = append(records, item)
 	}
 	data, err := json.Marshal(&entity.StreamMessageTaskData{
