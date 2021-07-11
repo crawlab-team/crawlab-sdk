@@ -9,6 +9,7 @@ import (
 	"github.com/crawlab-team/crawlab-sdk/interfaces"
 	"github.com/crawlab-team/go-trace"
 	"google.golang.org/grpc"
+	"os"
 	"time"
 )
 
@@ -110,11 +111,18 @@ func (c *Client) register() (err error) {
 }
 
 func NewClient(opts ...ClientOption) interfaces.Client {
+	// address
+	address, err := entity.NewAddressFromString(os.Getenv("CRAWLAB_GRPC_ADDRESS"))
+	if err != nil {
+		address = entity.NewAddress(&entity.AddressOptions{
+			Host: os.Getenv("CRAWLAB_GRPC_ADDRESS_HOST"),
+			Port: os.Getenv("CRAWLAB_GRPC_ADDRESS_PORT"),
+		})
+	}
+
+	// client
 	client := &Client{
-		address: entity.NewAddress(&entity.AddressOptions{
-			Host: "localhost",
-			Port: "9666",
-		}),
+		address: address,
 		timeout: 10 * time.Second,
 	}
 

@@ -1,7 +1,9 @@
 package entity
 
 import (
+	"errors"
 	"fmt"
+	"strings"
 )
 
 type Address struct {
@@ -39,5 +41,16 @@ func NewAddress(opts *AddressOptions) (res *Address) {
 	return &Address{
 		Host: opts.Host,
 		Port: opts.Port,
+	}
+}
+
+func NewAddressFromString(address string) (res *Address, err error) {
+	parts := strings.Split(address, ":")
+	if len(parts) == 1 {
+		return NewAddress(&AddressOptions{Host: parts[0]}), nil
+	} else if len(parts) == 2 {
+		return NewAddress(&AddressOptions{Host: parts[0], Port: parts[1]}), nil
+	} else {
+		return nil, errors.New(fmt.Sprintf("parsing address error: %v", err))
 	}
 }
