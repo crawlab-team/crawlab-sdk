@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-var C = NewClient()
+var C *Client
 
 type Client struct {
 	// settings
@@ -83,6 +83,8 @@ func (c *Client) connect() (err error) {
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithInsecure())
 	opts = append(opts, grpc.WithBlock())
+	opts = append(opts, grpc.WithChainUnaryInterceptor(GetAuthTokenUnaryChainInterceptor()))
+	opts = append(opts, grpc.WithChainStreamInterceptor(GetAuthTokenStreamChainInterceptor()))
 	c.conn, err = grpc.DialContext(ctx, address, opts...)
 	if err != nil {
 		return trace.TraceError(err)
@@ -110,7 +112,11 @@ func (c *Client) register() (err error) {
 	return nil
 }
 
-func NewClient(opts ...ClientOption) interfaces.Client {
+func GetClient(opts ...ClientOption) interfaces.Client {
+	if C != nil {
+		return C
+	}
+
 	// address
 	address, err := entity.NewAddressFromString(os.Getenv("CRAWLAB_GRPC_ADDRESS"))
 	if err != nil {
@@ -135,6 +141,8 @@ func NewClient(opts ...ClientOption) interfaces.Client {
 	if err := client.init(); err != nil {
 		panic(err)
 	}
+
+	C = client
 
 	return client
 }

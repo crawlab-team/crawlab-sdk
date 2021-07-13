@@ -9,7 +9,7 @@ import (
 	"github.com/crawlab-team/go-trace"
 )
 
-var RS = NewResultService()
+var RS *ResultService
 
 type ResultService struct {
 	// internals
@@ -67,14 +67,20 @@ func (svc *ResultService) _save(items []entity.Result) {
 }
 
 func (svc *ResultService) init() (err error) {
-	svc.sub, err = C.GetTaskClient().Subscribe(context.Background())
+	c := GetClient()
+	taskClient := c.GetTaskClient()
+	svc.sub, err = taskClient.Subscribe(context.Background())
 	if err != nil {
 		return trace.TraceError(err)
 	}
 	return nil
 }
 
-func NewResultService(opts ...ResultServiceOption) interfaces.ResultService {
+func GetResultService(opts ...ResultServiceOption) interfaces.ResultService {
+	if RS != nil {
+		return RS
+	}
+
 	// service
 	svc := &ResultService{}
 
@@ -88,13 +94,15 @@ func NewResultService(opts ...ResultServiceOption) interfaces.ResultService {
 		panic(err)
 	}
 
+	RS = svc
+
 	return svc
 }
 
 func SaveItem(items ...entity.Result) {
-	RS.SaveItem(items...)
+	GetResultService().SaveItem(items...)
 }
 
 func SaveItems(items []entity.Result) {
-	RS.SaveItems(items)
+	GetResultService().SaveItems(items)
 }

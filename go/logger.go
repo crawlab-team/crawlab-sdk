@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+var L *Logger
+
 type Logger struct {
 	log.Interface
 
@@ -102,14 +104,18 @@ func (l *Logger) init() (err error) {
 }
 
 func (l *Logger) _init() (err error) {
-	l.sub, err = C.GetTaskClient().Subscribe(context.Background())
+	l.sub, err = GetClient().GetTaskClient().Subscribe(context.Background())
 	if err != nil {
 		return trace.TraceError(err)
 	}
 	return nil
 }
 
-func NewLogger(opts ...LoggerOption) interfaces.Logger {
+func GetLogger(opts ...LoggerOption) interfaces.Logger {
+	if L != nil {
+		return L
+	}
+
 	// logger
 	l := &Logger{Interface: log.Log}
 
@@ -122,6 +128,8 @@ func NewLogger(opts ...LoggerOption) interfaces.Logger {
 	if err := l.init(); err != nil {
 		panic(err)
 	}
+
+	L = l
 
 	return l
 }

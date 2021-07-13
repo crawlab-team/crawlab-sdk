@@ -23,17 +23,19 @@ func init() {
 var T *Test
 
 type Test struct {
-	c            *mongo.Client
-	db           *mongo.Database
-	col          *mongo.Collection
-	colDc        *mongo.Collection
-	TestDbName   string
-	TestColName  string
-	TestTaskId   primitive.ObjectID
-	TestSpiderId primitive.ObjectID
-	TestDcId     primitive.ObjectID
-	TestDc       bson.M
-	resultSvc    interfaces.ResultService
+	c               *mongo.Client
+	db              *mongo.Database
+	col             *mongo.Collection
+	colDc           *mongo.Collection
+	TestDbName      string
+	TestColName     string
+	TestGrpcAddress string
+	TestGrpcAuthKey string
+	TestTaskId      primitive.ObjectID
+	TestSpiderId    primitive.ObjectID
+	TestDcId        primitive.ObjectID
+	TestDc          bson.M
+	resultSvc       interfaces.ResultService
 }
 
 func (t *Test) Setup(t2 *testing.T) {
@@ -52,12 +54,19 @@ func (t *Test) Setup(t2 *testing.T) {
 	if _, err := t.db.Collection("artifacts").InsertOne(context.Background(), bson.M{"_id": t.TestSpiderId}); err != nil {
 		panic(err)
 	}
-	if err := os.Setenv(sdk.TaskIdKey, t.TestTaskId.Hex()); err != nil {
+	if err := os.Setenv(sdk.TaskIdEnv, t.TestTaskId.Hex()); err != nil {
+		panic(err)
+	}
+	if err := os.Setenv(sdk.GrpcAddressEnv, t.TestGrpcAddress); err != nil {
+		panic(err)
+	}
+	if err := os.Setenv(sdk.GrpcAuthKeyEnv, t.TestGrpcAuthKey); err != nil {
 		panic(err)
 	}
 	if err := os.Setenv("mongo.db", "crawlab_test"); err != nil {
 		panic(err)
 	}
+	t.resultSvc = sdk.GetResultService()
 	time.Sleep(100 * time.Millisecond)
 	t2.Cleanup(t.Cleanup)
 }
@@ -75,6 +84,8 @@ func NewTest() (t *Test, err error) {
 
 	t.TestDbName = "crawlab_test"
 	t.TestColName = "test_results"
+	t.TestGrpcAddress = "localhost:9999"
+	t.TestGrpcAuthKey = "Crawlab2021!"
 	t.TestTaskId = primitive.NewObjectID()
 	t.TestSpiderId = primitive.NewObjectID()
 	t.TestDcId = primitive.NewObjectID()
@@ -90,7 +101,6 @@ func NewTest() (t *Test, err error) {
 	t.db = t.c.Database(t.TestDbName)
 	t.col = t.db.Collection(t.TestColName)
 	t.colDc = t.db.Collection("data_collections")
-	t.resultSvc = sdk.NewResultService()
 
 	return t, nil
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func GetTaskId() (id primitive.ObjectID) {
-	id, err := primitive.ObjectIDFromHex(os.Getenv(TaskIdKey))
+	id, err := primitive.ObjectIDFromHex(os.Getenv(TaskIdEnv))
 	if err != nil {
 		trace.PrintError(err)
 	}
