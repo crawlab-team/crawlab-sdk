@@ -3,7 +3,7 @@ module github.com/crawlab-team/crawlab-sdk
 go 1.15
 
 replace (
-	github.com/crawlab-team/crawlab-grpc => /Users/marvzhang/projects/crawlab-team/crawlab-grpc/dist/go
+	github.com/crawlab-team/crawlab-grpc => /Users/marvzhang/projects/crawlab-team/crawlab-grpc
 	github.com/crawlab-team/go-trace => /Users/marvzhang/projects/crawlab-team/go-trace
 )
 

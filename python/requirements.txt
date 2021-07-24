@@ -13,3 +13,6 @@ kafka-python==2.0.1
 elasticsearch==7.8.0
 gitignore_parser==0.0.6
 pathspec==0.8.0
+grpcio==1.39.0
+grpcio-tools==1.39.0
+grpc-interceptor-headers==0.1.0
