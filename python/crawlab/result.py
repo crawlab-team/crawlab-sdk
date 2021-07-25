@@ -47,7 +47,7 @@ class ResultService:
 
         data = json.dumps({
             "task_id": tid,
-            "records": records,
+            "data": records,
         }).encode('utf-8')
 
         msg = self.yield_msg(StreamMessage(
