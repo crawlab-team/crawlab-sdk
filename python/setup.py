@@ -7,7 +7,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='crawlab-sdk',
-    version='0.1.0',
+    version='0.4.0-beta.20210725.1911',
     packages=find_packages(),
     url='https://github.com/crawlab-team/crawlab-sdk',
     license='BSD-3-Clause',
@@ -30,9 +30,4 @@ setup(
         'grpcio-tools==1.39.0',
         'grpc-interceptor-headers==0.1.0',
     ],
-    entry_points={
-        'console_scripts': [
-            'crawlab=crawlab:main'
-        ]
-    }
 )
