@@ -2,7 +2,7 @@ import os
 import json
 import binascii
 
-from crawlab.core import CRAWLAB_ROOT
+from legacy.core import CRAWLAB_ROOT
 
 
 class Data(object):

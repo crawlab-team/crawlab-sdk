@@ -3,8 +3,8 @@ import os
 import click
 
 from crawlab import constants
-from crawlab.core.client import client
-from crawlab.core.config import config
+from legacy.core import client
+from legacy.core import config
 from crawlab.config import VERSION
 
 

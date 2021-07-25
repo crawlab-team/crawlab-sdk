@@ -2,9 +2,9 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from entity import request_pb2 as entity_dot_request__pb2
-from entity import response_pb2 as entity_dot_response__pb2
-from entity import stream_message_pb2 as entity_dot_stream__message__pb2
+from ..entity import request_pb2 as entity_dot_request__pb2
+from ..entity import response_pb2 as entity_dot_response__pb2
+from ..entity import stream_message_pb2 as entity_dot_stream__message__pb2
 
 
 class PluginServiceStub(object):

@@ -1,8 +1,8 @@
 from crawlab.constants import DedupMethod
-from crawlab.db.es import index_item
-from crawlab.db.kafka import send_msg
-from crawlab.db.mongo import get_col
-from crawlab.db.sql import insert_item, get_item, update_item
+from legacy.db import index_item
+from legacy.db.kafka import send_msg
+from legacy.db import get_col
+from legacy.db.sql import insert_item, get_item, update_item
 from crawlab.utils.config import get_task_id, get_is_dedup, get_dedup_field, get_dedup_method
 
 

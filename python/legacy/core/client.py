@@ -1,4 +1,3 @@
-import configparser
 import importlib
 import json
 import os
@@ -8,9 +7,9 @@ from zipfile import ZipFile, ZIP_DEFLATED
 import pathspec
 from prettytable import PrettyTable
 
-from crawlab.core import CRAWLAB_TMP
-from crawlab.core.config import config
-from crawlab.core.request import Request
+from legacy.core import CRAWLAB_TMP
+from legacy.core.config import config
+from legacy.core.request import Request
 from crawlab.utils.scrapy import get_scrapy_cfg, get_items_fields, get_pipelines, get_spider_filepath
 
 ignore_matches = None

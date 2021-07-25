@@ -5,10 +5,10 @@ import grpc
 
 from crawlab.auth_token import get_auth_token_interceptor
 from crawlab.entity.address import new_address_from_string, Address
-from ..services.model_base_service_pb2_grpc import ModelBaseServiceStub
-from ..services.model_delegate_pb2_grpc import ModelDelegateStub
-from ..services.node_service_pb2_grpc import NodeServiceStub
-from ..services.task_service_pb2_grpc import TaskServiceStub
+from crawlab.grpc.services.model_base_service_pb2_grpc import ModelBaseServiceStub
+from crawlab.grpc.services.model_delegate_pb2_grpc import ModelDelegateStub
+from crawlab.grpc.services.node_service_pb2_grpc import NodeServiceStub
+from crawlab.grpc.services.task_service_pb2_grpc import TaskServiceStub
 
 
 class Client:

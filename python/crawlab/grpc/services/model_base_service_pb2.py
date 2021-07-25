@@ -11,8 +11,8 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from entity import request_pb2 as entity_dot_request__pb2
-from entity import response_pb2 as entity_dot_response__pb2
+from ..entity import request_pb2 as entity_dot_request__pb2
+from ..entity import response_pb2 as entity_dot_response__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(

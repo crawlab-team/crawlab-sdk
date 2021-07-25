@@ -1,7 +1,7 @@
 import json
 
 import requests
-from crawlab.core.config import config
+from legacy.core.config import config
 
 
 class Request(object):

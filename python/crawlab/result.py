@@ -1,13 +1,13 @@
 import json
-from typing import List
+from typing import List, Optional
 
 from crawlab.client import get_client, Client
 from crawlab.config import get_task_id
 
 from crawlab.entity.result import Result
-from entity.stream_message_code_pb2 import INSERT_DATA
-from entity.stream_message_pb2 import StreamMessage
-from services.task_service_pb2_grpc import TaskServiceStub
+from crawlab.grpc.entity.stream_message_code_pb2 import INSERT_DATA
+from crawlab.grpc.entity.stream_message_pb2 import StreamMessage
+from crawlab.grpc.services.task_service_pb2_grpc import TaskServiceStub
 
 
 class ResultService:
@@ -31,6 +31,8 @@ class ResultService:
             _items.append(item)
             if i > 0 and i % 50 == 0:
                 self._save(_items)
+        if len(_items) > 0:
+            self._save(_items)
 
     def _save(self, items: List[Result]):
         # task id
@@ -46,10 +48,38 @@ class ResultService:
         data = json.dumps({
             "task_id": tid,
             "records": records,
-        })
+        }).encode('utf-8')
 
-        msg = StreamMessage(
+        msg = self.yield_msg(StreamMessage(
             code=INSERT_DATA,
             data=data,
-        )
-        self.task_stub.Subscribe(msg)
+        ))
+        try:
+            self.task_stub.Subscribe(msg)
+        except Exception as e:
+            print(e)
+        finally:
+            pass
+
+    @staticmethod
+    def yield_msg(msg):
+        yield msg
+
+
+RS: Optional[ResultService] = None
+
+
+def get_result_service() -> ResultService:
+    global RS
+    if RS is not None:
+        return RS
+    RS = ResultService()
+    return RS
+
+
+def save_item(*items: Result):
+    get_result_service().save_item(*items)
+
+
+def save_items(items: List[Result]):
+    get_result_service().save_items(items)
