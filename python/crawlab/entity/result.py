@@ -4,3 +4,6 @@ class Result(dict):
 
     def set_task_id(self, tid: str):
         self['_tid'] = tid
+
+    def to_dict(self) -> dict:
+        return dict(self)
