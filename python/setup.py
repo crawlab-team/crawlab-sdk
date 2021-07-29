@@ -7,7 +7,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='crawlab-sdk',
-    version='0.6.b20210725_1917',
+    version='0.6.b20210729_1625',
     packages=find_packages(),
     url='https://github.com/crawlab-team/crawlab-sdk',
     license='BSD-3-Clause',
