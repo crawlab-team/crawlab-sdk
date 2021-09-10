@@ -4,6 +4,7 @@ import json
 import os
 import sys
 from zipfile import ZipFile, ZIP_DEFLATED
+from types import ModuleType
 
 import pathspec
 from prettytable import PrettyTable
@@ -187,9 +188,13 @@ class Client(object):
 
         data = []
         for key in [key for key in dir(settings) if not key.startswith('__')]:
+            v = getattr(settings, key)
+            if isinstance(v, ModuleType):
+                continue
             data.append({
                 'key': key,
                 'value': getattr(settings, key),
+                'value': v,
             })
 
         print(json.dumps(data))
