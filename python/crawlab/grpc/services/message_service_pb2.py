@@ -11,7 +11,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from entity import stream_message_pb2 as entity_dot_stream__message__pb2
+from crawlab.grpc.entity import stream_message_pb2 as entity_dot_stream__message__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
