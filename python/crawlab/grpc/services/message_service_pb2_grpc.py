@@ -2,11 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from entity import request_pb2 as entity_dot_request__pb2
-from entity import response_pb2 as entity_dot_response__pb2
+from entity import stream_message_pb2 as entity_dot_stream__message__pb2
 
 
-class ModelDelegateStub(object):
+class MessageServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -15,42 +14,42 @@ class ModelDelegateStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Do = channel.unary_unary(
-                '/grpc.ModelDelegate/Do',
-                request_serializer=entity_dot_request__pb2.Request.SerializeToString,
-                response_deserializer=entity_dot_response__pb2.Response.FromString,
+        self.Connect = channel.stream_stream(
+                '/grpc.MessageService/Connect',
+                request_serializer=entity_dot_stream__message__pb2.StreamMessage.SerializeToString,
+                response_deserializer=entity_dot_stream__message__pb2.StreamMessage.FromString,
                 )
 
 
-class ModelDelegateServicer(object):
+class MessageServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def Do(self, request, context):
+    def Connect(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_ModelDelegateServicer_to_server(servicer, server):
+def add_MessageServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Do': grpc.unary_unary_rpc_method_handler(
-                    servicer.Do,
-                    request_deserializer=entity_dot_request__pb2.Request.FromString,
-                    response_serializer=entity_dot_response__pb2.Response.SerializeToString,
+            'Connect': grpc.stream_stream_rpc_method_handler(
+                    servicer.Connect,
+                    request_deserializer=entity_dot_stream__message__pb2.StreamMessage.FromString,
+                    response_serializer=entity_dot_stream__message__pb2.StreamMessage.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'grpc.ModelDelegate', rpc_method_handlers)
+            'grpc.MessageService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class ModelDelegate(object):
+class MessageService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Do(request,
+    def Connect(request_iterator,
             target,
             options=(),
             channel_credentials=None,
@@ -60,8 +59,8 @@ class ModelDelegate(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/grpc.ModelDelegate/Do',
-            entity_dot_request__pb2.Request.SerializeToString,
-            entity_dot_response__pb2.Response.FromString,
+        return grpc.experimental.stream_stream(request_iterator, target, '/grpc.MessageService/Connect',
+            entity_dot_stream__message__pb2.StreamMessage.SerializeToString,
+            entity_dot_stream__message__pb2.StreamMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

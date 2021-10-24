@@ -11,7 +11,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from ..entity import stream_message_code_pb2 as entity_dot_stream__message__code__pb2
+from entity import stream_message_code_pb2 as entity_dot_stream__message__code__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'Z\006.;grpc',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x1b\x65ntity/stream_message.proto\x12\x04grpc\x1a entity/stream_message_code.proto\"e\n\rStreamMessage\x12%\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x17.grpc.StreamMessageCode\x12\x10\n\x08node_key\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\x12\r\n\x05\x65rror\x18\x04 \x01(\tB\x08Z\x06.;grpcb\x06proto3'
+  serialized_pb=b'\n\x1b\x65ntity/stream_message.proto\x12\x04grpc\x1a entity/stream_message_code.proto\"\x8c\x01\n\rStreamMessage\x12%\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x17.grpc.StreamMessageCode\x12\x10\n\x08node_key\x18\x02 \x01(\t\x12\x0b\n\x03key\x18\x03 \x01(\t\x12\x0c\n\x04\x66rom\x18\x04 \x01(\t\x12\n\n\x02to\x18\x05 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x06 \x01(\x0c\x12\r\n\x05\x65rror\x18\x07 \x01(\tB\x08Z\x06.;grpcb\x06proto3'
   ,
   dependencies=[entity_dot_stream__message__code__pb2.DESCRIPTOR,])
 
@@ -50,15 +50,36 @@ _STREAMMESSAGE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='data', full_name='grpc.StreamMessage.data', index=2,
-      number=3, type=12, cpp_type=9, label=1,
+      name='key', full_name='grpc.StreamMessage.key', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='from', full_name='grpc.StreamMessage.from', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='to', full_name='grpc.StreamMessage.to', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='data', full_name='grpc.StreamMessage.data', index=5,
+      number=6, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=b"",
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='error', full_name='grpc.StreamMessage.error', index=3,
-      number=4, type=9, cpp_type=9, label=1,
+      name='error', full_name='grpc.StreamMessage.error', index=6,
+      number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -75,8 +96,8 @@ _STREAMMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=71,
-  serialized_end=172,
+  serialized_start=72,
+  serialized_end=212,
 )
 
 _STREAMMESSAGE.fields_by_name['code'].enum_type = entity_dot_stream__message__code__pb2._STREAMMESSAGECODE
