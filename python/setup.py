@@ -1,13 +1,11 @@
 from setuptools import setup, find_packages
 
-import crawlab.config
-
 with open('README.md', 'r') as f:
     long_description = f.read()
 
 setup(
     name='crawlab-sdk',
-    version='0.6.b20211024_1207',
+    version='0.6.b20211213_2123',
     packages=find_packages(),
     url='https://github.com/crawlab-team/crawlab-sdk',
     license='BSD-3-Clause',
@@ -29,5 +27,11 @@ setup(
         'grpcio==1.39.0',
         'grpcio-tools==1.39.0',
         'grpc-interceptor-headers==0.1.0',
+        'print-color==0.4.5',
     ],
+    entry_points={
+        'console_scripts': [
+            'crawlab-cli=cli.main:main'
+        ]
+    }
 )
