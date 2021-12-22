@@ -25,7 +25,7 @@ login_parser.set_defaults(func=login, action=CLI_ACTION_LOGIN)
 # upload parser
 upload_parser = subparsers.add_parser(CLI_ACTION_UPLOAD)
 upload_parser.add_argument('--dir', '-d', help='Local directory of spider to upload. Default: current directory',
-                           default='.', type=str)
+                           default=None, type=str)
 upload_parser.add_argument('--create', '-c', help='Whether to create a new spider. Default: false', action='store_true',
                            default=False)
 upload_parser.add_argument('--name', '-n', help='Spider name if creating a new spider. Default: directory name',

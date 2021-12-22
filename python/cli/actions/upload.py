@@ -12,10 +12,15 @@ def upload(args):
     # spider id
     _id = args.id
 
+    # dir
+    dir_ = args.dir
+    if dir_ is None:
+        dir_ = os.path.abspath('.')
+
     # name
     name = args.name
     if name is None:
-        name = os.path.basename(args.dir)
+        name = os.path.basename(dir_)
 
     # create spider
     if args.create:
@@ -33,7 +38,7 @@ def upload(args):
     }
 
     # iterate files
-    for root, dirs, files in os.walk(args.dir):
+    for root, dirs, files in os.walk(dir_):
         for file_name in files:
             # file path
             file_path = os.path.join(root, file_name)
@@ -43,7 +48,7 @@ def upload(args):
                 continue
 
             # target path
-            target_path = file_path.replace(args.dir, '')
+            target_path = file_path.replace(dir_, '')
 
             # upload file
             try:
