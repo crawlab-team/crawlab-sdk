@@ -20,7 +20,7 @@ login_parser.add_argument('--username', '-u', help='Username for logging in Craw
                           type=str)
 login_parser.add_argument('--password', '-p', help='Password for logging in Crawlab', default=CLI_DEFAULT_API_PASSWORD,
                           type=str)
-login_parser.set_defaults(func=login)
+login_parser.set_defaults(func=login, action=CLI_ACTION_LOGIN)
 
 # upload parser
 upload_parser = subparsers.add_parser(CLI_ACTION_UPLOAD)
@@ -35,18 +35,31 @@ upload_parser.add_argument('--id', '-i', help='Spider ID if uploading to an exis
 upload_parser.add_argument('--col_name', '-C',
                            help='Spider results collection name if creating a new spider. Default: results_<spider_name>',
                            type=str)
-upload_parser.set_defaults(func=upload)
+upload_parser.set_defaults(func=upload, action=CLI_ACTION_UPLOAD)
 
 # config parser
 config_parser = subparsers.add_parser(CLI_ACTION_CONFIG)
 config_parser.add_argument('--set', '-s', type=str)
 config_parser.add_argument('--unset', '-u', type=str)
-config_parser.set_defaults(func=config_func)
+config_parser.set_defaults(func=config_func, action=CLI_ACTION_CONFIG)
 
 
 def main():
     args = root_parser.parse_args()
-    args.func(args)
+    if not hasattr(args, 'func'):
+        root_parser.print_help()
+        return
+    try:
+        args.func(args)
+    except Exception:
+        if getattr(args, 'action') == CLI_ACTION_LOGIN:
+            login_parser.print_help()
+        elif getattr(args, 'action') == CLI_ACTION_UPLOAD:
+            upload_parser.print_help()
+        elif getattr(args, 'action') == CLI_ACTION_CONFIG:
+            config_parser.print_help()
+        else:
+            root_parser.print_help()
 
 
 if __name__ == '__main__':
