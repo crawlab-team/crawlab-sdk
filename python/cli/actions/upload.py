@@ -25,7 +25,7 @@ def upload(args):
     # create spider
     if args.create:
         try:
-            _id = create_spider(name=name, col_name=args.col_name)
+            _id = create_spider(name=name, col_name=args.col_name, cmd=args.cmd)
             print_color(f'created spider {name} (id: {_id})', tag='success', tag_color='green', color='white')
         except HttpException:
             print_color(f'create spider {name} failed', tag='error', tag_color='red', color='white')
@@ -66,7 +66,7 @@ def upload(args):
     print_color(f'failed: {stats["error"]}', tag='info', tag_color='cyan', color='white')
 
 
-def create_spider(name: str, col_name: str = None) -> str:
+def create_spider(name: str, col_name: str = None, cmd: str = None) -> str:
     # results collection name
     if col_name is None:
         col_name = f'results_{name}'
@@ -76,6 +76,7 @@ def create_spider(name: str, col_name: str = None) -> str:
         'name': name,
         'mode': CLI_DEFAULT_UPLOAD_SPIDER_MODE,
         'col_name': col_name,
+        'cmd': cmd,
     })
 
     return res.json().get('data').get('_id')

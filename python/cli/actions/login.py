@@ -6,10 +6,16 @@ from cli.constants import CLI_DEFAULT_CONFIG_KEY_USERNAME, CLI_DEFAULT_CONFIG_KE
 
 def login(args):
     url = f'{args.api_address}/login'
-    res = http_post(url, {
-        'username': args.username,
-        'password': args.password,
-    })
+    try:
+        res = http_post(url, {
+            'username': args.username,
+            'password': args.password,
+        })
+        print('logged-in successfully')
+    except Exception as e:
+        print(e)
+        return
+
     token = res.json().get('data')
     config.set(CLI_DEFAULT_CONFIG_KEY_USERNAME, args.username)
     config.set(CLI_DEFAULT_CONFIG_KEY_PASSWORD, args.password)

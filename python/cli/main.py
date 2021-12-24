@@ -35,6 +35,9 @@ upload_parser.add_argument('--id', '-i', help='Spider ID if uploading to an exis
 upload_parser.add_argument('--col_name', '-C',
                            help='Spider results collection name if creating a new spider. Default: results_<spider_name>',
                            type=str)
+upload_parser.add_argument('--cmd', '-m',
+                           help='Spider execute command if creating a new spider. Default: echo "hello crawlab"',
+                           default='echo "hello crawlab"')
 upload_parser.set_defaults(func=upload, action=CLI_ACTION_UPLOAD)
 
 # config parser
@@ -51,7 +54,7 @@ def main():
         return
     try:
         args.func(args)
-    except Exception:
+    except Exception as e:
         if getattr(args, 'action') == CLI_ACTION_LOGIN:
             login_parser.print_help()
         elif getattr(args, 'action') == CLI_ACTION_UPLOAD:
