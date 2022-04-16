@@ -24,7 +24,7 @@ jobs:
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo $file
-            if [[ $file =~ '^_ext/python' ]]; then
+            if [[ $file =~ ^_ext/python ]]; then
               echo "${file} matched"
               export IS_MATCHED=1
               break
