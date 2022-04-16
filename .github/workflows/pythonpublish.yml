@@ -7,6 +7,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      IS_MATCHED: 0
     steps:
       - uses: actions/checkout@v3
 
@@ -18,15 +20,20 @@ jobs:
         id: check-folder
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-          echo "$file was changed"
+            if [[ $file =~ '^_ext/python' ]]; then
+              IS_MATCHED=1
+              break
+            fi
           done
 
       - name: Set up Python
+        if: ${{ env.IS_MATCHED == '1' }}
         uses: actions/setup-python@v1
         with:
           python-version: '3.x'
 
       - name: Install dependencies
+        if: ${{ env.IS_MATCHED == '1' }}
         run: |
           cd python
           python -m pip install --upgrade pip
@@ -34,6 +41,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build and publish
+        if: ${{ env.IS_MATCHED == '1' }}
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
