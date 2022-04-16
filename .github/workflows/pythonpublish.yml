@@ -10,8 +10,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      IS_MATCHED: 0
     steps:
       - uses: actions/checkout@v3
 
@@ -23,16 +21,15 @@ jobs:
         id: check-folder
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo $file
             if [[ $file =~ ^_ext/python/.* ]]; then
-              echo "${file} matched"
-              export IS_MATCHED=1
+              echo "file ${file} is matched"
+              echo "is_matched=1" >> $GITHUB_ENV
               break
             fi
           done
 
       - name: Set up Python
-        if: ${{ env.IS_MATCHED == '1' }}
+        if: ${{ env.is_matched == '1' }}
         uses: actions/setup-python@v1
         with:
           python-version: '3.x'
