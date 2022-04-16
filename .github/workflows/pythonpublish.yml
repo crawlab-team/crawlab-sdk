@@ -1,11 +1,11 @@
 name: Upload Python Package
 
 on:
-  push:
-    branches:
-      - main
-#  release:
-#    types: [ published ]
+  #  push:
+  #    branches:
+  #      - main
+  release:
+    types: [ published ]
 
 jobs:
   deploy:
@@ -35,7 +35,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        if: ${{ env.IS_MATCHED == '1' }}
+        if: ${{ env.is_matched == '1' }}
         run: |
           cd python
           python -m pip install --upgrade pip
@@ -43,7 +43,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build and publish
-        if: ${{ env.IS_MATCHED == '1' }}
+        if: ${{ env.is_matched == '1' }}
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
@@ -51,4 +51,4 @@ jobs:
           cd python
           python setup.py sdist bdist_wheel
           pip install twine
-#          twine upload dist/*
+          twine upload dist/*
