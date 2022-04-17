@@ -28,7 +28,7 @@ jobs:
         if: ${{ env.is_matched == '1' }}
         uses: actions/setup-python@v1
         with:
-          python-version: '3.x'
+          python-version: '3.8'
 
       - name: Install dependencies
         if: ${{ env.is_matched == '1' }}
