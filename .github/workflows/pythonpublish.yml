@@ -1,9 +1,6 @@
 name: Upload Python Package
 
 on:
-  #  push:
-  #    branches:
-  #      - main
   release:
     types: [ published ]
 
@@ -17,8 +14,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v18.7
 
-      - name: Check folder
-        id: check-folder
+      - name: Check changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             if [[ $file =~ ^_ext/python/.* ]]; then

@@ -9,12 +9,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v18.7
+
+      - name: Check changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            if [[ $file =~ ^_ext/nodejs/.* ]]; then
+              echo "file ${file} is matched"
+              echo "is_matched=1" >> $GITHUB_ENV
+              break
+            fi
+          done
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        if: ${{ env.is_matched == '1' }}
         with:
           node-version: 8.12
           registry-url: https://registry.npmjs.org/
-      - run: |
+
+      - name: Publish
+        run: |
           cd nodejs
           npm publish
+        if: ${{ env.is_matched == '1' }}
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
