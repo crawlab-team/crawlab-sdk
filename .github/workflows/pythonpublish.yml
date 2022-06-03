@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         if: ${{ env.is_matched == '1' }}
         run: |
-          cd python
+          cd _ext/python
           python -m pip install --upgrade pip
           pip install setuptools wheel
           pip install -r requirements.txt
