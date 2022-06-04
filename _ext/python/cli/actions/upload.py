@@ -6,26 +6,30 @@ from print_color import print as print_color
 from cli.client.request import http_put, http_post
 from cli.constants import CLI_DEFAULT_UPLOAD_IGNORE_PATTERNS, CLI_DEFAULT_UPLOAD_SPIDER_MODE
 from cli.errors import MissingIdException, HttpException
+from crawlab.config.spider import get_spider_config
 
 
 def upload(args):
     # spider id
     _id = args.id
 
-    # dir
+    # directory path
     dir_ = args.dir
     if dir_ is None:
         dir_ = os.path.abspath('.')
 
-    # name
-    name = args.name
-    if name is None:
-        name = os.path.basename(dir_)
+    # spider config
+    cfg = get_spider_config(dir_)
+
+    # variables
+    name = cfg.name
+    col_name = args.col_name if args.col_name is not None else cfg.col_name
+    cmd = args.cmd if args.cmd is not None else cfg.cmd
 
     # create spider
     if args.create:
         try:
-            _id = create_spider(name=name, col_name=args.col_name, cmd=args.cmd)
+            _id = create_spider(name=name, col_name=col_name, cmd=cmd)
             print_color(f'created spider {name} (id: {_id})', tag='success', tag_color='green', color='white')
         except HttpException:
             print_color(f'create spider {name} failed', tag='error', tag_color='red', color='white')

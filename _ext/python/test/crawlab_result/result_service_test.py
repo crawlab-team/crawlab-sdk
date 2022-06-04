@@ -3,8 +3,6 @@ import os
 import time
 import unittest
 
-import bson
-
 from crawlab.grpc.entity.stream_message_code_pb2 import INSERT_DATA
 from crawlab.grpc.entity.stream_message_pb2 import StreamMessage
 from crawlab.result import get_result_service
@@ -12,7 +10,7 @@ from crawlab.client import get_client
 from crawlab.entity.result import Result
 
 os.environ['CRAWLAB_TASK_ID'] = ''.join(['0'] * 24)
-os.environ['CRAWLAB_GRPC_ADDRESS'] = 'localhost:9999'
+os.environ['CRAWLAB_GRPC_ADDRESS'] = 'localhost:9666'
 os.environ['CRAWLAB_GRPC_AUTH_KEY'] = 'Crawlab2021!'
 
 
