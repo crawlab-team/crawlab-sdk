@@ -22,3 +22,4 @@ CLI_DEFAULT_UPLOAD_IGNORE_PATTERNS = [
     r'\.idea/'
 ]
 CLI_DEFAULT_UPLOAD_SPIDER_MODE = 'random'
+CLI_DEFAULT_UPLOAD_SPIDER_CMD = 'echo "hello crawlab"'

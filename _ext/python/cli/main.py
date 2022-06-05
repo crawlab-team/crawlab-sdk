@@ -28,16 +28,23 @@ upload_parser.add_argument('--dir', '-d', help='Local directory of spider to upl
                            default=None, type=str)
 upload_parser.add_argument('--create', '-c', help='Whether to create a new spider. Default: false', action='store_true',
                            default=False)
-upload_parser.add_argument('--name', '-n', help='Spider name if creating a new spider. Default: directory name',
-                           type=str)
 upload_parser.add_argument('--id', '-i', help='Spider ID if uploading to an existing spider.',
                            type=str)
+upload_parser.add_argument('--name', '-n', help='Spider name if creating a new spider. Default: directory name',
+                           type=str)
+upload_parser.add_argument('--description', '-D',
+                           help='Spider description if creating a new spider. Default: spider name', type=str)
+upload_parser.add_argument('--mode', '-M',
+                           help='Default spider running task mode. Default: random', type=str, default='random')
+upload_parser.add_argument('--priority', '-p',
+                           help='Default spider running task priority. Default: 5', type=int, default=5)
+upload_parser.add_argument('--cmd', '-m',
+                           help='Spider execute command if creating a new spider')
+upload_parser.add_argument('--param', '-P',
+                           help='Spider execute params if creating a new spider')
 upload_parser.add_argument('--col_name', '-C',
                            help='Spider results collection name if creating a new spider. Default: results_<spider_name>',
                            type=str)
-upload_parser.add_argument('--cmd', '-m',
-                           help='Spider execute command if creating a new spider. Default: echo "hello crawlab"',
-                           default='echo "hello crawlab"')
 upload_parser.set_defaults(func=upload, action=CLI_ACTION_UPLOAD)
 
 # config parser
@@ -55,6 +62,7 @@ def main():
     try:
         args.func(args)
     except Exception as e:
+        print(e)
         if getattr(args, 'action') == CLI_ACTION_LOGIN:
             login_parser.print_help()
         elif getattr(args, 'action') == CLI_ACTION_UPLOAD:

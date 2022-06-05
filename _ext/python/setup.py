@@ -3,6 +3,9 @@ from setuptools import setup, find_packages
 with open('README.md', 'r') as f:
     long_description = f.read()
 
+with open('requirements.txt', 'r') as f:
+    install_requires = f.read().split('\n')
+
 setup(
     name='crawlab-sdk',
     version='0.6.0-1',
@@ -20,15 +23,7 @@ setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
     ],
-    install_requires=[
-        'requests==2.22.0',
-        'prettytable==0.7.2',
-        'pathspec==0.8.0',
-        'grpcio==1.39.0',
-        'grpcio-tools==1.39.0',
-        'grpc-interceptor-headers==0.1.0',
-        'print-color==0.4.5',
-    ],
+    install_requires=install_requires,
     entry_points={
         'console_scripts': [
             'crawlab-cli=cli.main:main'
