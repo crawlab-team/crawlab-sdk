@@ -1,5 +1,6 @@
 import os
 import re
+from argparse import Namespace
 
 from print_color import print as print_color
 
@@ -9,7 +10,7 @@ from cli.errors import MissingIdException, HttpException
 from crawlab.config.spider import get_spider_config
 
 
-def upload(args):
+def upload(args: Namespace):
     # spider id
     _id = args.id
 
@@ -22,7 +23,7 @@ def upload(args):
     cfg = get_spider_config(dir_)
 
     # variables
-    name = cfg.name
+    name = args.name if args.name is not None else cfg.name
     col_name = args.col_name if args.col_name is not None else cfg.col_name
     cmd = args.cmd if args.cmd is not None else cfg.cmd
 
@@ -70,17 +71,25 @@ def upload(args):
     print_color(f'failed: {stats["error"]}', tag='info', tag_color='cyan', color='white')
 
 
-def create_spider(name: str, col_name: str = None, cmd: str = None) -> str:
+def create_spider(name: str, col_name: str = None, cmd: str = None, description: str = None, mode: str = None,
+                  param: str = None, priority: int = None) -> str:
     # results collection name
     if col_name is None:
         col_name = f'results_{name}'
 
+    # mode
+    if mode is None:
+        mode = CLI_DEFAULT_UPLOAD_SPIDER_MODE
+
     # http put
     res = http_put(url='/spiders', data={
         'name': name,
-        'mode': CLI_DEFAULT_UPLOAD_SPIDER_MODE,
+        'mode': mode,
         'col_name': col_name,
         'cmd': cmd,
+        'param': param,
+        'priority': priority,
+        'description': description,
     })
 
     return res.json().get('data').get('_id')
