@@ -66,10 +66,16 @@ class CliActionUploadTestCase(unittest.TestCase):
 
     def test_upload_with_crawlab_json(self):
         name, dir_path = self._setup()
+        description = 'test_description_' + f'_{int(datetime.now().timestamp())}'
+        mode = 'all-nodes'
+        priority = 1
+        cmd = 'echo hello'
+        param = 'test'
         with open(os.path.join(dir_path, 'main.py'), 'w') as f:
             f.write('print(\'hello world\')')
         with open(os.path.join(dir_path, 'crawlab.json'), 'w') as f:
-            f.write('{"name":"%s"}' % name)
+            f.write('{"name":"%s","description":"%s","mode":"%s","priority":%d,"cmd":"%s","param":"%s"}' % (
+                name, description, mode, priority, cmd, param))
         login(Namespace(
             username='admin',
             password='admin',
@@ -94,6 +100,10 @@ class CliActionUploadTestCase(unittest.TestCase):
         assert len(data) == 10
         spider = data[0]
         assert spider.get('name') == name
+        assert spider.get('description') == description
+        assert spider.get('mode') == mode
+        assert spider.get('cmd') == cmd
+        assert spider.get('param') == param
         requests.delete(f'{self.endpoint}/spiders/{spider.get("_id")}',
                         headers={'Authorization': config.data.get("token")})
 
