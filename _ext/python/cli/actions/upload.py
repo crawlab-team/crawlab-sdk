@@ -24,13 +24,18 @@ def upload(args: Namespace):
 
     # variables
     name = args.name if args.name is not None else cfg.name
-    col_name = args.col_name if args.col_name is not None else cfg.col_name
+    description = args.description if args.description is not None else cfg.description
+    mode = args.mode if args.mode is not None else cfg.mode
+    priority = args.priority if args.priority is not None else cfg.priority
     cmd = args.cmd if args.cmd is not None else cfg.cmd
+    param = args.param if args.param is not None else cfg.param
+    col_name = args.col_name if args.col_name is not None else cfg.col_name
 
     # create spider
     if args.create:
         try:
-            _id = create_spider(name=name, col_name=col_name, cmd=cmd)
+            _id = create_spider(name=name, description=description, mode=mode, priority=priority, cmd=cmd, param=param,
+                                col_name=col_name)
             print_color(f'created spider {name} (id: {_id})', tag='success', tag_color='green', color='white')
         except HttpException:
             print_color(f'create spider {name} failed', tag='error', tag_color='red', color='white')
@@ -71,7 +76,7 @@ def upload(args: Namespace):
     print_color(f'failed: {stats["error"]}', tag='info', tag_color='cyan', color='white')
 
 
-def create_spider(name: str, col_name: str = None, cmd: str = None, description: str = None, mode: str = None,
+def create_spider(name: str, description: str = None, col_name: str = None, mode: str = None, cmd: str = None,
                   param: str = None, priority: int = None) -> str:
     # results collection name
     if col_name is None:

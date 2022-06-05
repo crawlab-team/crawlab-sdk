@@ -16,8 +16,24 @@ class SpiderConfig(dict):
         return self.get('name')
 
     @property
+    def description(self):
+        return self.get('description')
+
+    @property
+    def mode(self):
+        return self.get('mode')
+
+    @property
+    def priority(self):
+        return self.get('priority')
+
+    @property
     def cmd(self):
         return self.get('cmd')
+
+    @property
+    def param(self):
+        return self.get('param')
 
     @property
     def col_name(self):
