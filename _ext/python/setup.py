@@ -8,7 +8,7 @@ with open('requirements.txt', 'r') as f:
 
 setup(
     name='crawlab-sdk',
-    version='0.6.0-2',
+    version='0.6.0-3',
     packages=find_packages(),
     url='https://github.com/crawlab-team/crawlab-sdk',
     license='BSD-3-Clause',
@@ -26,7 +26,7 @@ setup(
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'crawlab-cli=cli.main:main'
+            'crawlab-cli=crawlab.cli.main:main'
         ]
     }
 )

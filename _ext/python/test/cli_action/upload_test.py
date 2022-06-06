@@ -6,9 +6,9 @@ from datetime import datetime
 
 import requests
 
-from cli.actions.login import login
-from cli.actions.upload import upload
-from cli.config import config
+from crawlab.cli.actions.login import cli_login
+from crawlab.cli.actions.upload import cli_upload
+from crawlab.config.config import config
 
 
 class CliActionUploadTestCase(unittest.TestCase):
@@ -32,12 +32,12 @@ class CliActionUploadTestCase(unittest.TestCase):
         priority = 1
         cmd = 'echo hello'
         param = 'test'
-        login(Namespace(
+        cli_login(Namespace(
             username='admin',
             password='admin',
             api_address=self.endpoint,
         ))
-        upload(Namespace(
+        cli_upload(Namespace(
             id=None,
             dir=None,
             name=name,
@@ -76,12 +76,12 @@ class CliActionUploadTestCase(unittest.TestCase):
         with open(os.path.join(dir_path, 'crawlab.json'), 'w') as f:
             f.write('{"name":"%s","description":"%s","mode":"%s","priority":%d,"cmd":"%s","param":"%s"}' % (
                 name, description, mode, priority, cmd, param))
-        login(Namespace(
+        cli_login(Namespace(
             username='admin',
             password='admin',
             api_address=self.endpoint,
         ))
-        upload(Namespace(
+        cli_upload(Namespace(
             id=None,
             dir=None,
             name=name,
@@ -94,10 +94,9 @@ class CliActionUploadTestCase(unittest.TestCase):
             create=True,
         ))
         res = requests.get(f'{self.endpoint}/spiders', headers={'Authorization': config.data.get("token")},
-                           params={'size': 10, 'page': 1, 'sort': '[]'})
+                           params={'size': 1, 'page': 1, 'sort': '[]'})
         assert res.status_code == 200
         data = res.json().get('data')
-        assert len(data) == 10
         spider = data[0]
         assert spider.get('name') == name
         assert spider.get('description') == description

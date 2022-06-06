@@ -2,8 +2,8 @@ import os
 import unittest
 from argparse import Namespace
 
-from cli.actions.login import login
-from cli.config import config
+from crawlab.cli.actions.login import cli_login
+from crawlab.config.config import config
 
 
 class CliActionLoginTestCase(unittest.TestCase):
@@ -14,7 +14,7 @@ class CliActionLoginTestCase(unittest.TestCase):
             password='admin',
             api_address=os.environ.get('CRAWLAB_API_ADDRESS') or 'http://localhost:8000'
         )
-        login(args)
+        cli_login(args)
         assert os.path.exists(config.json_path)
         assert len(config.data.get('token')) > 0
 

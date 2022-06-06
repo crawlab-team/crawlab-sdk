@@ -1,8 +1,8 @@
-from cli.config import config
-from cli.constants import CLI_DEFAULT_CONFIG_KEY_PASSWORD
+from crawlab.config.config import config
+from crawlab.constants.upload import CLI_DEFAULT_CONFIG_KEY_PASSWORD
 
 
-def config_func(args):
+def cli_config_func(args):
     if args.set is not None:
         k, v = args.set.split('=')
         config.set(k, v)

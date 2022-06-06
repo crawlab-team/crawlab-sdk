@@ -2,7 +2,8 @@ import binascii
 import json
 import os
 
-from cli.constants import CLI_DEFAULT_CONFIG_ROOT_DIR, CLI_DEFAULT_CONFIG_CLI_DIR, CLI_DEFAULT_CONFIG_FILE_NAME, \
+from crawlab.constants.upload import CLI_DEFAULT_CONFIG_ROOT_DIR, CLI_DEFAULT_CONFIG_CLI_DIR, \
+    CLI_DEFAULT_CONFIG_FILE_NAME, \
     CLI_DEFAULT_CONFIG_KEY_PASSWORD
 
 home = os.curdir

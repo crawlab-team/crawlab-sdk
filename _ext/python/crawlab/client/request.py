@@ -1,8 +1,8 @@
 import requests
 
-from cli.config import config
-from cli.constants import CLI_DEFAULT_CONFIG_KEY_API_ADDRESS, CLI_DEFAULT_CONFIG_KEY_TOKEN
-from cli.errors import HttpException
+from crawlab.config.config import config
+from crawlab.constants.upload import CLI_DEFAULT_CONFIG_KEY_API_ADDRESS, CLI_DEFAULT_CONFIG_KEY_TOKEN
+from crawlab.errors.upload import HttpException
 
 
 def http_request(method: str, url: str, params: dict = None, data: dict = None, headers: dict = None,
@@ -50,17 +50,17 @@ def http_request(method: str, url: str, params: dict = None, data: dict = None, 
     raise HttpException(err_msg)
 
 
-def http_get(url: str, params: dict, headers: dict = None, **kwargs):
+def http_get(url: str, params: dict = None, headers: dict = None, **kwargs):
     return http_request(method='GET', url=url, params=params, headers=headers, **kwargs)
 
 
-def http_put(url: str, data: dict, headers: dict = None, **kwargs):
+def http_put(url: str, data: dict = None, headers: dict = None, **kwargs):
     return http_request(method='PUT', url=url, data=data, headers=headers, **kwargs)
 
 
-def http_post(url: str, data: dict, headers: dict = None, **kwargs):
+def http_post(url: str, data: dict = None, headers: dict = None, **kwargs):
     return http_request(method='POST', url=url, data=data, headers=headers, **kwargs)
 
 
-def http_delete(url: str, data: dict, headers: dict = None, **kwargs):
+def http_delete(url: str, data: dict = None, headers: dict = None, **kwargs):
     return http_request(method='DELETE', url=url, data=data, headers=headers, **kwargs)
