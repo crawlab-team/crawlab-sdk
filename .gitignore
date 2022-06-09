@@ -9,3 +9,4 @@ build
 __pycache__
 **/_trial_temp
 vendor
+.python-version

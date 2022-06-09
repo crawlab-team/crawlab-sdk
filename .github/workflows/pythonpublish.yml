@@ -7,6 +7,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    services:
+      master:
+        image: crawlabteam/crawlab
+        env:
+          CRAWLAB_NODE_MASTER: Y
+          CRAWLAB_MONGO_HOST: mongo
+        ports:
+          - "8080:8080"
+      mongo:
+        image: mongo:4.2
+
     steps:
       - uses: actions/checkout@v3
 
@@ -37,6 +49,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install setuptools wheel
           pip install -r requirements.txt
+
+      - name: Test
+        run: |
+          python crawlab/cli/main.py login -a http://localhost:8080/api
+          python -m unittest crawlab_demo.test
 
       - name: Check version
         if: ${{ env.is_matched == '1' }}
