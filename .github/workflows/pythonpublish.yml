@@ -51,6 +51,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Test
+        if: ${{ env.is_matched == '1' }}
         run: |
           cd _ext/python
           python crawlab/cli/main.py login -a http://localhost:8080/api
