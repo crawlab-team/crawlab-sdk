@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main ]
 
+env:
+  CRAWLAB_API_ADDRESS: http://localhost:8080/api
+  PACKAGE_NAME: crawlab-sdk
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -54,8 +58,9 @@ jobs:
         if: ${{ env.is_matched == '1' }}
         run: |
           cd _ext/python
-          python crawlab/cli/main.py login -a http://localhost:8080/api
-          python -m unittest crawlab_demo.test
+          python setup.py install
+          crawlab login -a ${{ env.CRAWLAB_API_ADDRESS }}
+          python -m unittest crawlab.test
 
       - name: Check version
         if: ${{ env.is_matched == '1' }}
