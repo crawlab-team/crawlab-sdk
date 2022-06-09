@@ -52,6 +52,7 @@ jobs:
 
       - name: Test
         run: |
+          cd _ext/python
           python crawlab/cli/main.py login -a http://localhost:8080/api
           python -m unittest crawlab_demo.test
 
