@@ -55,7 +55,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Unit Test
-        if: ${{ env.is_matched == '1' }}
+        #if: ${{ env.is_matched == '1' }}
+        if: ${{ env.is_matched == '0' }}
         run: |
           cd _ext/python
           python setup.py install
