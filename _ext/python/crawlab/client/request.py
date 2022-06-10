@@ -1,12 +1,14 @@
 import requests
 
+from crawlab.actions.login import login
 from crawlab.config.config import config
 from crawlab.constants.upload import CLI_DEFAULT_CONFIG_KEY_API_ADDRESS, CLI_DEFAULT_CONFIG_KEY_TOKEN
 from crawlab.errors.upload import HttpException
 
 
 def http_request(method: str, url: str, params: dict = None, data: dict = None, headers: dict = None,
-                 token: str = None, files: dict = None):
+                 token: str = None, files: dict = None, auto_login: bool = None, api_address: str = None,
+                 username: str = None, password: str = None):
     # headers
     if headers is None:
         headers = {
@@ -35,6 +37,10 @@ def http_request(method: str, url: str, params: dict = None, data: dict = None, 
     # status code: ok
     if res.status_code == 200:
         return res
+    elif res.status_code == 401 and auto_login:
+        login(api_address, username, password)
+        return http_request(method, url, params, data, headers, token, files, auto_login, api_address, username,
+                            password)
 
     try:
         res_data = res.json()
