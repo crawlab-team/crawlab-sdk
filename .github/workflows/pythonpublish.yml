@@ -54,12 +54,12 @@ jobs:
           pip install setuptools wheel
           pip install -r requirements.txt
 
-      - name: Test
+      - name: Unit Test
         if: ${{ env.is_matched == '1' }}
         run: |
           cd _ext/python
           python setup.py install
-          crawlab login -a ${{ env.CRAWLAB_API_ADDRESS }}
+          crawlab-cli login -a ${{ env.CRAWLAB_API_ADDRESS }}
           python -m unittest crawlab.test
 
       - name: Check version
