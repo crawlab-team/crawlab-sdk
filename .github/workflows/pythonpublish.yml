@@ -66,6 +66,7 @@ jobs:
       - name: Check version
         if: ${{ env.is_matched == '1' }}
         run: |
+          cd _ext/python
           version=`python setup.py --version`
           res=`curl https://pypi.org/project/${{ env.PACKAGE_NAME }}/${version}/ -i -s | grep 'HTTP/2 404' | true`
           if [[ $res =~ 404 ]]; then
