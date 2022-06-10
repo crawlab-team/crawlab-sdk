@@ -1,14 +1,25 @@
+import os
+
 import requests
 
-from crawlab.actions.login import login
 from crawlab.config.config import config
+from crawlab.constants.request import DEFAULT_CRAWLAB_API_ADDRESS
 from crawlab.constants.upload import CLI_DEFAULT_CONFIG_KEY_API_ADDRESS, CLI_DEFAULT_CONFIG_KEY_TOKEN
 from crawlab.errors.upload import HttpException
 
 
+def get_api_address() -> str:
+    return config.data.get(CLI_DEFAULT_CONFIG_KEY_API_ADDRESS) \
+           or os.environ.get('CRAWLAB_API_ADDRESS') \
+           or DEFAULT_CRAWLAB_API_ADDRESS
+
+
+def get_api_token() -> str:
+    return config.data.get(CLI_DEFAULT_CONFIG_KEY_TOKEN)
+
+
 def http_request(method: str, url: str, params: dict = None, data: dict = None, headers: dict = None,
-                 token: str = None, files: dict = None, auto_login: bool = None, api_address: str = None,
-                 username: str = None, password: str = None):
+                 token: str = None, files: dict = None):
     # headers
     if headers is None:
         headers = {
@@ -17,11 +28,11 @@ def http_request(method: str, url: str, params: dict = None, data: dict = None, 
 
     # url
     if not url.startswith('http'):
-        url = f'{config.data.get(CLI_DEFAULT_CONFIG_KEY_API_ADDRESS)}{url}'
+        url = f'{get_api_address()}{url}'
 
     # token
     if token is None:
-        token = config.data.get(CLI_DEFAULT_CONFIG_KEY_TOKEN)
+        token = get_api_token()
     headers['Authorization'] = token
 
     # args
@@ -37,10 +48,6 @@ def http_request(method: str, url: str, params: dict = None, data: dict = None, 
     # status code: ok
     if res.status_code == 200:
         return res
-    elif res.status_code == 401 and auto_login:
-        login(api_address, username, password)
-        return http_request(method, url, params, data, headers, token, files, auto_login, api_address, username,
-                            password)
 
     try:
         res_data = res.json()

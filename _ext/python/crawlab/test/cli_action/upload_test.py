@@ -8,11 +8,12 @@ import requests
 
 from crawlab.cli.actions.login import cli_login
 from crawlab.cli.actions.upload import cli_upload
+from crawlab.client import get_api_address
 from crawlab.config.config import config
 
 
 class CliActionUploadTestCase(unittest.TestCase):
-    endpoint = os.environ.get('CRAWLAB_API_ADDRESS') or 'http://localhost:8000'
+    endpoint = get_api_address()
 
     @staticmethod
     def _setup():
