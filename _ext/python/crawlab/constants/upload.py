@@ -1,6 +1,7 @@
 CLI_ACTION_LOGIN = 'login'
 CLI_ACTION_UPLOAD = 'upload'
 CLI_ACTION_CONFIG = 'config'
+CLI_ACTION_MIGRATE = 'migrate'
 
 CLI_DEFAULT_API_ADDRESS = 'http://localhost:8080/api'
 CLI_DEFAULT_API_USERNAME = 'admin'

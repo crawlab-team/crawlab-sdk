@@ -1,9 +1,11 @@
+import json
 import os
 import re
 
 from print_color import print as print_color
+from requests import Response
 
-from crawlab.client import http_put, http_post
+from crawlab.client import http_put, http_post, http_get
 from crawlab.config import get_spider_config
 from crawlab.constants.upload import CLI_DEFAULT_UPLOAD_SPIDER_MODE, CLI_DEFAULT_UPLOAD_SPIDER_CMD, \
     CLI_DEFAULT_UPLOAD_IGNORE_PATTERNS
@@ -24,8 +26,8 @@ def create_spider(name: str, description: str = None, mode: str = None, priority
     if cmd is None:
         cmd = CLI_DEFAULT_UPLOAD_SPIDER_CMD
 
-    # http put
-    res = http_put(url='/spiders', data={
+    # http post
+    res = http_post(url='/spiders', data={
         'name': name,
         'description': description,
         'mode': mode,
@@ -36,6 +38,19 @@ def create_spider(name: str, description: str = None, mode: str = None, priority
     })
 
     return res.json().get('data').get('_id')
+
+
+def exists_spider_by_name(name: str) -> bool:
+    try:
+        res = http_get(url=f'/spiders', params={'conditions': json.dumps([{'key': 'name', 'op': 'eq', 'value': name}])})
+        if not isinstance(res, Response) or res.status_code != 200:
+            return False
+        data = res.json().get('data')
+        if data is None or len(data) == 0:
+            return False
+        return True
+    except:
+        return False
 
 
 def upload_file(_id: str, file_path: str, target_path: str):

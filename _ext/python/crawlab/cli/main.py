@@ -1,8 +1,9 @@
 import argparse
 
+from crawlab.cli.actions.migrate import cli_migrate
 from crawlab.constants.upload import CLI_ACTION_UPLOAD, CLI_ACTION_LOGIN, CLI_DEFAULT_API_ADDRESS, \
     CLI_DEFAULT_API_USERNAME, \
-    CLI_DEFAULT_API_PASSWORD, CLI_ACTION_CONFIG
+    CLI_DEFAULT_API_PASSWORD, CLI_ACTION_CONFIG, CLI_ACTION_MIGRATE
 from crawlab.cli.actions.config import cli_config_func
 from crawlab.cli.actions.login import cli_login
 from crawlab.cli.actions.upload import cli_upload
@@ -54,6 +55,16 @@ config_parser.add_argument('--set', '-s', type=str)
 config_parser.add_argument('--unset', '-u', type=str)
 config_parser.set_defaults(func=cli_config_func, action=CLI_ACTION_CONFIG)
 
+# migrate parser
+migrate_parser = subparsers.add_parser(CLI_ACTION_MIGRATE)
+migrate_parser.add_argument('--mongo_host', help='MongoDB host', type=str, default='localhost')
+migrate_parser.add_argument('--mongo_port', help='MongoDB port', type=int, default=27017)
+migrate_parser.add_argument('--mongo_db', help='MongoDB db', type=str, default='crawlab_test')
+migrate_parser.add_argument('--mongo_username', help='MongoDB username', type=str, default=None)
+migrate_parser.add_argument('--mongo_password', help='MongoDB password', type=str, default=None)
+migrate_parser.add_argument('--mongo_auth_source', help='MongoDB auth source', type=str, default='admin')
+migrate_parser.set_defaults(func=cli_migrate, action=CLI_ACTION_MIGRATE)
+
 
 def main():
     args = root_parser.parse_args()
@@ -70,6 +81,8 @@ def main():
             upload_parser.print_help()
         elif getattr(args, 'action') == CLI_ACTION_CONFIG:
             config_parser.print_help()
+        elif getattr(args, 'action') == CLI_ACTION_MIGRATE:
+            migrate_parser.print_help()
         else:
             root_parser.print_help()
 
