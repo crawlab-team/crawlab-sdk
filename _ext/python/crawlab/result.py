@@ -31,6 +31,7 @@ class ResultService:
             _items.append(item)
             if i > 0 and i % 50 == 0:
                 self._save(_items)
+                _items = []
         if len(_items) > 0:
             self._save(_items)
 
