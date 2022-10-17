@@ -1,6 +1,6 @@
 {
   "name": "crawlab-sdk",
-  "version": "0.6.0-8",
+  "version": "0.6.0-9",
   "description": "Node.js SDK for Crawlab",
   "scripts": {
     "build": "vite build"

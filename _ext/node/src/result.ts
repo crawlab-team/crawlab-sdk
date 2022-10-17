@@ -1,4 +1,4 @@
-import {ResultItem, ResultService, SaveItemFn, SaveItemsFn} from '../typings';
+import {ResultItem, ResultService} from '../typings';
 import {credentials, Metadata} from '@grpc/grpc-js';
 import {getTaskId} from './config';
 import {getAuthToken} from './authToken';
@@ -111,11 +111,11 @@ export class ResultServiceClass implements ResultService {
   }
 }
 
-export const saveItem: SaveItemFn = (...items: ResultItem[]) => {
+export const saveItem = (...items: ResultItem[]) => {
   return getResultService().saveItem(...items);
 };
 
-export const saveItems: SaveItemsFn = (items: ResultItem[]) => {
+export const saveItems = (items: ResultItem[]) => {
   return getResultService().saveItems(items);
 };
 

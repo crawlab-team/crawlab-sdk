@@ -10,6 +10,6 @@ export declare interface ResultItem {
   [key: string]: any;
 }
 
-export declare type SaveItemFn = (...items: ResultItem[]) => void;
+export declare function saveItem(...items: ResultItem[]): void;
 
-export declare type SaveItemsFn = (items: ResultItem[]) => void;
+export declare function saveItems(items: ResultItem[]): void;
