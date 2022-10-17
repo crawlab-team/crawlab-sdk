@@ -48,6 +48,13 @@ jobs:
           node-version: '14.20'
           registry-url: https://registry.npmjs.org/
 
+      - name: Install
+        if: ${{ env.is_matched == '1' }}
+        run: |
+          cd _ext/node
+          npm install -g pnpm
+          pnpm install
+
       - name: Build
         if: ${{ env.is_matched == '1' }}
         run: |
