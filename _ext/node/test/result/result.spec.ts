@@ -2,9 +2,6 @@ import {describe, expect, test} from '@jest/globals';
 import {getResultService} from '../../src';
 import {ResultItem} from '../../typings';
 
-const {StreamMessage} = require('../../src/grpc/entity/stream_message_pb.js');
-const {StreamMessageCode} = require('../../src/grpc/entity/stream_message_code_pb.js');
-
 describe('test-results-service', () => {
   /*
   os.environ['CRAWLAB_TASK_ID'] = ''.join(['0'] * 24)
@@ -33,5 +30,10 @@ describe('test-results-service', () => {
     for (let i = 0; i < 1000; i++) {
       await rs.saveItem(basicItem);
     }
+  });
+
+  test('should import dist', async () => {
+    const {saveItem} = require('../../dist/index.js');
+    await saveItem(basicItem);
   });
 });
