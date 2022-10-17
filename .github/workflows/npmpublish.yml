@@ -51,7 +51,7 @@ jobs:
       - name: Build
         if: ${{ env.is_matched == '1' }}
         run: |
-          cd node
+          cd _ext/node
           npm run build
           
       - name: Check version
@@ -69,7 +69,7 @@ jobs:
       - name: Publish
         if: ${{ env.is_matched == '1' }}
         run: |
-          cd node
+          cd _ext/node
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
