@@ -39,7 +39,6 @@ export class ResultServiceClass implements ResultService {
     metadata.add('authorization', getAuthToken());
     const options = {};
     const callback = (value: any) => {
-      console.debug(value);
     };
     this.sub = this.client.subscribe(metadata, options, callback);
   }

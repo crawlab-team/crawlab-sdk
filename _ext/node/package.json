@@ -3,7 +3,8 @@
   "version": "0.6.0-10",
   "description": "Node.js SDK for Crawlab",
   "scripts": {
-    "build": "vite build"
+    "build": "babel --presets @babel/preset-typescript --extensions '.ts,.js' src --out-dir dist",
+    "test": "jest"
   },
   "repository": {
     "type": "git",

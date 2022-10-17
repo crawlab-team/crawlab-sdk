@@ -61,6 +61,12 @@ jobs:
           cd _ext/node
           npm run build
           
+      - name: Test
+        if: ${{ env.is_matched == '1' }}
+        run: |
+          cd _ext/node
+          npm run test
+ 
       - name: Check version
         if: ${{ env.is_matched == '1' }}
         run: |
