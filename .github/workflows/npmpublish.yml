@@ -1,12 +1,29 @@
 name: Node.js Package
 
 on:
-  release:
-    types: [ published ]
+  push:
+    branches: [ main ]
 
+env:
+  CRAWLAB_API_ADDRESS: http://localhost:8080/api
+  PACKAGE_NAME: crawlab-sdk
+  
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
+    
+#     services:
+#       master:
+#         image: crawlabteam/crawlab
+#         env:
+#           CRAWLAB_NODE_MASTER: Y
+#           CRAWLAB_MONGO_HOST: mongo
+#         ports:
+#           - "8080:8080"
+#           - "9666:9666"
+#       mongo:
+#         image: mongo:4.2
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -17,7 +34,7 @@ jobs:
       - name: Check changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [[ $file =~ ^_ext/nodejs/.* ]]; then
+            if [[ $file =~ ^_ext/node/.* ]]; then
               echo "file ${file} is matched"
               echo "is_matched=1" >> $GITHUB_ENV
               break
@@ -28,13 +45,31 @@ jobs:
         uses: actions/setup-node@v1
         if: ${{ env.is_matched == '1' }}
         with:
-          node-version: 8.12
+          node-version: '14.20'
           registry-url: https://registry.npmjs.org/
 
-      - name: Publish
-        run: |
-          cd nodejs
-          npm publish
+      - name: Build
         if: ${{ env.is_matched == '1' }}
+        run: |
+          cd node
+          npm run build
+          
+      - name: Check version
+        if: ${{ env.is_matched == '1' }}
+        run: |
+          cd _ext/node
+          version=`node -e 'const p = require("./package.json"); console.log(p.version)'`
+          res=`https://www.npmjs.com/package/${{ env.PACKAGE_NAME }}/v/${version} -i -s | grep 'HTTP/2 404' | true`
+          if [[ $res =~ 404 ]]; then
+            echo "is_matched=0" >> $GITHUB_ENV 
+          else:
+            echo "is_matched=1" >> $GITHUB_ENV 
+          fi
+          
+      - name: Publish
+        if: ${{ env.is_matched == '1' }}
+        run: |
+          cd node
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
