@@ -47,6 +47,12 @@ jobs:
         with:
           node-version: '14.20'
           registry-url: https://registry.npmjs.org/
+
+      - name: Build
+        if: ${{ env.is_matched == '1' }}
+        run: |
+          cd node
+          npm run build
           
       - name: Check version
         if: ${{ env.is_matched == '1' }}
@@ -61,9 +67,9 @@ jobs:
           fi
           
       - name: Publish
+        if: ${{ env.is_matched == '1' }}
         run: |
           cd node
           npm publish
-        if: ${{ env.is_matched == '1' }}
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
