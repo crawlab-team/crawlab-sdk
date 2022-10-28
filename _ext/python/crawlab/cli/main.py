@@ -50,7 +50,8 @@ upload_parser.add_argument('--col_name', '-C',
 upload_parser.add_argument('--exclude_path', '-e',
                            help='Exclude dir of spider to upload, like .env .venv node_modules',
                            default=None,
-                           type=str)
+                           type=str,
+                           required=False)
 upload_parser.set_defaults(func=cli_upload, action=CLI_ACTION_UPLOAD)
 
 # config parser

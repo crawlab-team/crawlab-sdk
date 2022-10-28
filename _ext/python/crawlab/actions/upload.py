@@ -55,7 +55,7 @@ def exists_spider_by_name(name: str) -> bool:
 
 def upload_file(_id: str, file_path: str, target_path: str):
     if _id is None:
-        raise MissingIdException
+        raise MissingIdException("Missing ID")
 
     with open(file_path, 'rb') as f:
         data = {
