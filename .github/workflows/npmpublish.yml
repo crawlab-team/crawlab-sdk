@@ -3,6 +3,9 @@ name: Node.js Package
 on:
   push:
     branches: [ main ]
+  pull_request:
+    types:
+      - opened
 
 env:
   CRAWLAB_API_ADDRESS: http://localhost:8080/api
