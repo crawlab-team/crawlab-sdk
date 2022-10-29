@@ -87,7 +87,7 @@ def upload_dir(dir_path: str, create: bool = True, spider_id: str = None, name=N
     if col_name is None:
         col_name = cfg.col_name
     if exclude_path is None:
-        col_name = cfg.exclude_path
+        exclude_path = cfg.exclude_path
     # create spider
     if create:
         try:
