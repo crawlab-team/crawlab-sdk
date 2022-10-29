@@ -99,6 +99,7 @@ class CliActionUploadTestCase(unittest.TestCase):
             param=None,
             col_name=None,
             create=True,
+            exclude_path=None
         ))
         res = requests.get(f'{self.endpoint}/spiders', headers={'Authorization': config.data.get("token")},
                            params={'size': 1, 'page': 1, 'sort': '[]'})
