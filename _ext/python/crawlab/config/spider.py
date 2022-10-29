@@ -39,6 +39,10 @@ class SpiderConfig(dict):
     def col_name(self):
         return self.get('col_name')
 
+    @property
+    def exclude_path(self):
+        return self.get('exclude_path')
+
 
 def get_spider_config(dir_path: str = None) -> SpiderConfig:
     # directory path
