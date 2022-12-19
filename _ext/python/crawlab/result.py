@@ -1,4 +1,5 @@
 import json
+from queue import Queue
 from typing import List, Optional, Dict
 
 from crawlab.client import get_client, Client
@@ -14,10 +15,12 @@ class ResultService:
     # internal
     c: Client = None
     task_stub: TaskServiceStub = None
+    queue: Queue = Queue()
 
     def __init__(self):
         self.c = get_client()
         self.task_stub = self.c.task_service_stub
+        self.task_stub.Subscribe.future(self.yield_msg())
 
     def save_item(self, *items: Dict):
         self.save(list(items))
@@ -52,20 +55,18 @@ class ResultService:
             "data": records,
         }).encode('utf-8')
 
-        msg = self.yield_msg(StreamMessage(
+        msg = StreamMessage(
             code=INSERT_DATA,
             data=data,
-        ))
-        try:
-            self.task_stub.Subscribe(msg)
-        except Exception as e:
-            print(e)
-        finally:
-            pass
+        )
+        self.enqueue(msg)
 
-    @staticmethod
-    def yield_msg(msg):
-        yield msg
+    def enqueue(self, msg: StreamMessage):
+        self.queue.put(msg)
+
+    def yield_msg(self):
+        while True:
+            yield self.queue.get()
 
 
 RS: Optional[ResultService] = None
