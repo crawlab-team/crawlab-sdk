@@ -21,6 +21,11 @@ class CliActionUploadTestCase(unittest.TestCase):
         dir_path = os.path.join(tempfile.gettempdir(), name)
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
+        venv_dir = os.path.join(dir_path, '.venv')
+        if not os.path.exists(venv_dir):
+            os.makedirs(venv_dir)
+        with open(os.path.join(venv_dir, 'pyvenv.cfg'), 'w') as f:
+            f.write('virtualenv = 20.13.0')
         os.chdir(dir_path)
         return name, dir_path
 
@@ -49,6 +54,7 @@ class CliActionUploadTestCase(unittest.TestCase):
             param=param,
             col_name=None,
             create=True,
+            exclude_path='.venv'
         ))
 
         res = requests.get(f'{self.endpoint}/spiders', headers={'Authorization': config.data.get("token")},
@@ -93,6 +99,7 @@ class CliActionUploadTestCase(unittest.TestCase):
             param=None,
             col_name=None,
             create=True,
+            exclude_path=None
         ))
         res = requests.get(f'{self.endpoint}/spiders', headers={'Authorization': config.data.get("token")},
                            params={'size': 1, 'page': 1, 'sort': '[]'})

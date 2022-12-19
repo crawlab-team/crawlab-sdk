@@ -55,7 +55,7 @@ def exists_spider_by_name(name: str) -> bool:
 
 def upload_file(_id: str, file_path: str, target_path: str):
     if _id is None:
-        raise MissingIdException
+        raise MissingIdException("Missing ID")
 
     with open(file_path, 'rb') as f:
         data = {
@@ -68,10 +68,9 @@ def upload_file(_id: str, file_path: str, target_path: str):
 
 
 def upload_dir(dir_path: str, create: bool = True, spider_id: str = None, name=None, description=None, mode=None,
-               priority=None, cmd=None, param=None, col_name=None):
+               priority=None, cmd=None, param=None, col_name=None, exclude_path: list = None):
     # spider config
     cfg = get_spider_config(dir_path)
-
     # variables
     if name is None:
         name = cfg.name
@@ -87,7 +86,8 @@ def upload_dir(dir_path: str, create: bool = True, spider_id: str = None, name=N
         param = cfg.param
     if col_name is None:
         col_name = cfg.col_name
-
+    if exclude_path is None:
+        exclude_path = cfg.exclude_path
     # create spider
     if create:
         try:
@@ -111,7 +111,7 @@ def upload_dir(dir_path: str, create: bool = True, spider_id: str = None, name=N
             file_path = os.path.join(root, file_name)
 
             # ignored file
-            if is_ignored(file_path):
+            if is_ignored(file_path, exclude_path):
                 continue
 
             # target path
@@ -133,8 +133,10 @@ def upload_dir(dir_path: str, create: bool = True, spider_id: str = None, name=N
     print_color(f'failed: {stats["error"]}', tag='info', tag_color='cyan', color='white')
 
 
-def is_ignored(file_path: str) -> bool:
-    for pat in CLI_DEFAULT_UPLOAD_IGNORE_PATTERNS:
+def is_ignored(file_path: str, exclude_path_patterns: list = None) -> bool:
+    exclude_path_patterns = exclude_path_patterns or []
+    ignore_patterns = exclude_path_patterns + CLI_DEFAULT_UPLOAD_IGNORE_PATTERNS
+    for pat in ignore_patterns:
         if re.search(pat, file_path) is not None:
             return True
     return False

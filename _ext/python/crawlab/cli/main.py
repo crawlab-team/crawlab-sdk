@@ -47,6 +47,11 @@ upload_parser.add_argument('--param', '-P',
 upload_parser.add_argument('--col_name', '-C',
                            help='Spider results collection name if creating a new spider. Default: results_<spider_name>',
                            type=str)
+upload_parser.add_argument('--exclude_path', '-e',
+                           help='Exclude dir of spider to upload, like .env .venv node_modules',
+                           default=None,
+                           type=str,
+                           required=False)
 upload_parser.set_defaults(func=cli_upload, action=CLI_ACTION_UPLOAD)
 
 # config parser
