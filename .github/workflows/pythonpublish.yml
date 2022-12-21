@@ -15,16 +15,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    services:
-      master:
-        image: crawlabteam/crawlab
-        env:
-          CRAWLAB_NODE_MASTER: Y
-          CRAWLAB_MONGO_HOST: mongo
-        ports:
-          - "8080:8080"
-      mongo:
-        image: mongo:4.2
+#    services:
+#      master:
+#        image: crawlabteam/crawlab
+#        env:
+#          CRAWLAB_NODE_MASTER: Y
+#          CRAWLAB_MONGO_HOST: mongo
+#        ports:
+#          - "8080:8080"
+#      mongo:
+#        image: mongo:4.2
 
     steps:
       - uses: actions/checkout@v3
