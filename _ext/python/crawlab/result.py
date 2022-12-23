@@ -5,8 +5,8 @@ from crawlab.client import get_client, Client
 from crawlab.config import get_task_id
 
 from crawlab.entity.result import Result
-from crawlab.grpc.entity.stream_message_code_pb2 import INSERT_DATA
-from crawlab.grpc.entity.stream_message_pb2 import StreamMessage
+from crawlab.grpc.entity import stream_message_code_pb2
+from crawlab.grpc.entity import stream_message_pb2
 from crawlab.grpc.services.task_service_pb2_grpc import TaskServiceStub
 
 
@@ -52,8 +52,8 @@ class ResultService:
             "data": records,
         }).encode('utf-8')
 
-        msg = StreamMessage(
-            code=INSERT_DATA,
+        msg = stream_message_pb2.StreamMessage(
+            code=stream_message_code_pb2.INSERT_DATA,
             data=data,
         )
         self.task_stub.Subscribe(iter([msg]))

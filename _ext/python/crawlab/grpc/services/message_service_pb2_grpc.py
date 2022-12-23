@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from crawlab.grpc.entity import stream_message_pb2 as entity_dot_stream__message__pb2
+from ..entity import stream_message_pb2 as entity_dot_stream__message__pb2
 
 
 class MessageServiceStub(object):

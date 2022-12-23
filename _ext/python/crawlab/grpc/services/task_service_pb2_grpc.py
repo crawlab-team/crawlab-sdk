@@ -2,9 +2,9 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from crawlab.grpc.entity import request_pb2 as entity_dot_request__pb2
-from crawlab.grpc.entity import response_pb2 as entity_dot_response__pb2
-from crawlab.grpc.entity import stream_message_pb2 as entity_dot_stream__message__pb2
+from ..entity import request_pb2 as entity_dot_request__pb2
+from ..entity import response_pb2 as entity_dot_response__pb2
+from ..entity import stream_message_pb2 as entity_dot_stream__message__pb2
 
 
 class TaskServiceStub(object):
@@ -21,8 +21,8 @@ class TaskServiceStub(object):
                 request_serializer=entity_dot_stream__message__pb2.StreamMessage.SerializeToString,
                 response_deserializer=entity_dot_response__pb2.Response.FromString,
                 )
-        self.GetDataSource = channel.unary_unary(
-                '/grpc.TaskService/GetDataSource',
+        self.Fetch = channel.unary_unary(
+                '/grpc.TaskService/Fetch',
                 request_serializer=entity_dot_request__pb2.Request.SerializeToString,
                 response_deserializer=entity_dot_response__pb2.Response.FromString,
                 )
@@ -37,7 +37,7 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetDataSource(self, request, context):
+    def Fetch(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -51,8 +51,8 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     request_deserializer=entity_dot_stream__message__pb2.StreamMessage.FromString,
                     response_serializer=entity_dot_response__pb2.Response.SerializeToString,
             ),
-            'GetDataSource': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetDataSource,
+            'Fetch': grpc.unary_unary_rpc_method_handler(
+                    servicer.Fetch,
                     request_deserializer=entity_dot_request__pb2.Request.FromString,
                     response_serializer=entity_dot_response__pb2.Response.SerializeToString,
             ),
@@ -84,7 +84,7 @@ class TaskService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetDataSource(request,
+    def Fetch(request,
             target,
             options=(),
             channel_credentials=None,
@@ -94,7 +94,7 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/grpc.TaskService/GetDataSource',
+        return grpc.experimental.unary_unary(request, target, '/grpc.TaskService/Fetch',
             entity_dot_request__pb2.Request.SerializeToString,
             entity_dot_response__pb2.Response.FromString,
             options, channel_credentials,
