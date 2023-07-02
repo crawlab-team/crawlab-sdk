@@ -1,32 +1,27 @@
+import json
 import os
 import tempfile
 from datetime import datetime
-from zipfile import ZipFile
 
-from pymongo.collection import Collection
-from pymongo.database import Database
-import gridfs
-from print_color import print as print_color
+import requests
 
-from crawlab.actions.upload import create_spider, upload_file, is_ignored, exists_spider_by_name
 from crawlab.errors.upload import HttpException
 
+from crawlab.actions.upload import exists_spider_by_name, create_spider, upload_file, is_ignored
+from print_color import print as print_color
 
-def migrate(mongo_db: Database):
+from crawlab.actions.migrate import get_spiders
+
+
+def migrate_no_upgrade(mongo_db=None, source_filer_address=None, target_filer_address=None):
     print_color('start migrating', tag='info', tag_color='cyan', color='white')
 
     # mongo spiders collection
     mongo_col_spiders = mongo_db.spiders
 
     # spiders
-    spiders = _get_spiders(mongo_col_spiders)
+    spiders = get_spiders(mongo_col_spiders)
     print_color(f'found {len(spiders)} spiders', tag='info', tag_color='cyan', color='white')
-
-    # mongo grid fs
-    mongo_grid_fs = gridfs.GridFS(mongo_db, collection='files')
-
-    # mongo grid fs buckets
-    mongo_grid_fs_bucket = gridfs.GridFSBucket(mongo_db, bucket_name='files')
 
     # stats
     stats = {
@@ -37,8 +32,11 @@ def migrate(mongo_db: Database):
 
     # iterate spiders
     for spider in spiders:
-        # download and extract zip file
-        zip_file_extract_path = _download_and_extract_zip_file(spider['name'], mongo_grid_fs, mongo_grid_fs_bucket)
+        # download files
+        dir_path = _download_spider_files(str(spider['_id']), source_filer_address, target_filer_address)
+        print(dir_path)
+        print(os.listdir(dir_path))
+        continue
 
         # migrated spider name
         migrated_spider_name = f'{spider["name"]}_{spider["_id"]}'
@@ -60,7 +58,7 @@ def migrate(mongo_db: Database):
             return
 
         # upload spider files to api
-        for root, dirs, files in os.walk(zip_file_extract_path):
+        for root, dirs, files in os.walk(dir_path):
             for file_name in files:
                 # file path
                 file_path = os.path.join(root, file_name)
@@ -70,7 +68,7 @@ def migrate(mongo_db: Database):
                     continue
 
                 # target path
-                target_path = file_path.replace(zip_file_extract_path, '')
+                target_path = file_path.replace(dir_path, '')
 
                 # upload file
                 upload_file(spider_id, file_path, target_path)
@@ -87,38 +85,34 @@ def migrate(mongo_db: Database):
     print_color(f'skipped: {stats["skipped"]}', tag='info', tag_color='cyan', color='white')
 
 
-def _get_spiders(mongo_col_spiders: Collection):
-    spiders = []
-    for spider in mongo_col_spiders.find():
-        spiders.append(spider)
-    return spiders
-
-
-def get_spiders(mongo_col_spiders: Collection):
-    return _get_spiders(mongo_col_spiders)
-
-
-def _download_and_extract_zip_file(spider_name: str, mongo_grid_fs: gridfs.GridFS,
-                                   mongo_grid_fs_bucket: gridfs.GridFSBucket):
+def _download_spider_files(spider_id: str, source_filer_address: str, target_filer_address: str) -> str:
     tmp_dir = tempfile.gettempdir()
-    root_dir = os.path.join(tmp_dir, spider_name)
+    root_dir = os.path.join(tmp_dir, spider_id)
     os.makedirs(root_dir, exist_ok=True)
 
-    # validate zip file exists
-    zip_file_info = mongo_grid_fs.find_one({'filename': f'{spider_name}.zip'})
-    if zip_file_info is None:
-        return
-    zip_file_name = f'{spider_name}.zip'
-    zip_file_path = f'{root_dir}/{zip_file_name}'
+    path = f'fs/{spider_id}'
+    _download_file(path, root_dir, source_filer_address, target_filer_address)
 
-    with open(zip_file_path, 'wb') as f:
-        mongo_grid_fs_bucket.download_to_stream_by_name(zip_file_name, f)
+    return root_dir
 
-    zip_file = ZipFile(zip_file_path)
 
-    zip_file_extract_path = f'{root_dir}/{spider_name}'
-    os.makedirs(zip_file_extract_path, exist_ok=True)
+def _download_file(path: str, root_dir: str, source_filer_address: str, target_filer_address: str):
+    url = f'{source_filer_address}/{path}'
+    res = requests.get(
+        url=url,
+        headers={
+            'Accept': 'application/json',
+        },
+    )
+    data = json.loads(res.content)
 
-    zip_file.extractall(zip_file_extract_path)
-
-    return zip_file_extract_path
+    for e in data.get('Entries'):
+        # dir
+        if e.get('chunks') is None:
+            pass
+        # file
+        else:
+            res = requests.get(f'{source_filer_address}{e.get("FullPath")}')
+            file_path = e.get('FullPath').replace(path, root_dir)
+            with open(file_path, 'wb') as f:
+                f.write(res.content)

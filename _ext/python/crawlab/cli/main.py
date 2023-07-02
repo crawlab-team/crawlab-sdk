@@ -68,6 +68,10 @@ migrate_parser.add_argument('--mongo_db', help='MongoDB db', type=str, default='
 migrate_parser.add_argument('--mongo_username', help='MongoDB username', type=str, default=None)
 migrate_parser.add_argument('--mongo_password', help='MongoDB password', type=str, default=None)
 migrate_parser.add_argument('--mongo_auth_source', help='MongoDB auth source', type=str, default='admin')
+migrate_parser.add_argument('--no_upgrade', help='No upgrade', type=bool, default=False)
+migrate_parser.add_argument('--source_filer_address', help='Source filer address', type=str,
+                            default='http://localhost:8888')
+migrate_parser.add_argument('--target_filer_address', help='Target filer address', type=str, default=None)
 migrate_parser.set_defaults(func=cli_migrate, action=CLI_ACTION_MIGRATE)
 
 
