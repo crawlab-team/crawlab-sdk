@@ -1,6 +1,6 @@
 requests>=2.27
 pathspec==0.8.0
-grpcio==1.51.1
+grpcio==1.53.0
 grpcio-tools==1.51.1
 grpc-interceptor-headers==0.1.0
 print-color==0.4.5
