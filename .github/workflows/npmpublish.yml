@@ -48,7 +48,7 @@ jobs:
         uses: actions/setup-node@v1
         if: ${{ env.is_matched == '1' }}
         with:
-          node-version: '14.20'
+          node-version: '16.20'
           registry-url: https://registry.npmjs.org/
 
       - name: Install
