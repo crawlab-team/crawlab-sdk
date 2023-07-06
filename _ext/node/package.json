@@ -30,7 +30,7 @@
   "main": "./dist/index.js",
   "types": "./typings/index.d.ts",
   "dependencies": {
-    "@grpc/grpc-js": "1.7.2",
+    "@grpc/grpc-js": "1.8.8",
     "google-protobuf": "^3.21.2"
   },
   "devDependencies": {
@@ -38,7 +38,7 @@
     "@babel/core": "^7.0.0-0",
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-typescript": "^7.18.6",
-    "@grpc/grpc-js": "1.7.2",
+    "@grpc/grpc-js": "1.8.8",
     "@jest/globals": "^29.2.0",
     "@types/jest": "^29.1.2",
     "async": "^1.5.2",
