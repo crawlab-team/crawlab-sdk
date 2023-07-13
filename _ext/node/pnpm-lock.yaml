@@ -64,6 +64,7 @@ packages:
     dependencies:
       '@grpc/proto-loader': 0.7.3
       '@types/node': 18.11.0
+    dev: false
 
   /@grpc/proto-loader@0.7.3:
     resolution: {integrity: sha512-5dAvoZwna2Py3Ef96Ux9jIkp3iZ62TUsV00p3wVBPNX5K178UbNi8Q7gQVqwXT1Yq9RejIGG9G2IPEo93T6RcA==}
@@ -261,6 +262,24 @@ packages:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
 
+  /semver@5.7.2:
+    resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
+    hasBin: true
+    dev: true
+
+  /semver@6.3.0:
+    resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
+    hasBin: true
+    dev: true
+
+  /semver@7.3.8:
+    resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: registry.npmmirror.com/lru-cache@6.0.0
+    dev: true
+
   /string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
     engines: {node: '>=8'}
@@ -379,7 +398,7 @@ packages:
       debug: registry.npmmirror.com/debug@4.3.4
       gensync: registry.npmmirror.com/gensync@1.0.0-beta.2
       json5: registry.npmmirror.com/json5@2.2.1
-      semver: registry.npmmirror.com/semver@6.3.0
+      semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -427,7 +446,7 @@ packages:
       '@babel/core': registry.npmmirror.com/@babel/core@7.19.3
       '@babel/helper-validator-option': registry.npmmirror.com/@babel/helper-validator-option@7.18.6
       browserslist: registry.npmmirror.com/browserslist@4.21.4
-      semver: registry.npmmirror.com/semver@6.3.0
+      semver: 6.3.0
     dev: true
 
   registry.npmmirror.com/@babel/helper-create-class-features-plugin@7.19.0(@babel/core@7.19.3):
@@ -479,7 +498,7 @@ packages:
       debug: registry.npmmirror.com/debug@4.3.4
       lodash.debounce: registry.npmmirror.com/lodash.debounce@4.0.8
       resolve: registry.npmmirror.com/resolve@1.22.1
-      semver: registry.npmmirror.com/semver@6.3.0
+      semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1751,7 +1770,7 @@ packages:
       babel-plugin-polyfill-corejs3: registry.npmmirror.com/babel-plugin-polyfill-corejs3@0.6.0(@babel/core@7.19.3)
       babel-plugin-polyfill-regenerator: registry.npmmirror.com/babel-plugin-polyfill-regenerator@0.4.1(@babel/core@7.19.3)
       core-js-compat: registry.npmmirror.com/core-js-compat@3.25.5
-      semver: registry.npmmirror.com/semver@6.3.0
+      semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2397,7 +2416,7 @@ packages:
       '@babel/compat-data': registry.npmmirror.com/@babel/compat-data@7.19.4
       '@babel/core': registry.npmmirror.com/@babel/core@7.19.3
       '@babel/helper-define-polyfill-provider': registry.npmmirror.com/@babel/helper-define-polyfill-provider@0.3.3(@babel/core@7.19.3)
-      semver: registry.npmmirror.com/semver@6.3.0
+      semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3116,7 +3135,7 @@ packages:
       '@babel/parser': registry.npmmirror.com/@babel/parser@7.19.4
       '@istanbuljs/schema': registry.npmmirror.com/@istanbuljs/schema@0.1.3
       istanbul-lib-coverage: registry.npmmirror.com/istanbul-lib-coverage@3.2.0
-      semver: registry.npmmirror.com/semver@6.3.0
+      semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3535,7 +3554,7 @@ packages:
       jest-util: registry.npmmirror.com/jest-util@29.2.0
       natural-compare: registry.npmmirror.com/natural-compare@1.4.0
       pretty-format: registry.npmmirror.com/pretty-format@29.2.0
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3726,7 +3745,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       pify: registry.npmmirror.com/pify@4.0.1
-      semver: registry.npmmirror.com/semver@5.7.1
+      semver: 5.7.2
     dev: true
 
   registry.npmmirror.com/make-dir@3.1.0:
@@ -3735,7 +3754,7 @@ packages:
     version: 3.1.0
     engines: {node: '>=8'}
     dependencies:
-      semver: registry.npmmirror.com/semver@6.3.0
+      semver: 6.3.0
     dev: true
 
   registry.npmmirror.com/make-error@1.3.6:
@@ -4103,30 +4122,6 @@ packages:
       supports-preserve-symlinks-flag: registry.npmmirror.com/supports-preserve-symlinks-flag@1.0.0
     dev: true
 
-  registry.npmmirror.com/semver@5.7.1:
-    resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/semver/-/semver-5.7.1.tgz}
-    name: semver
-    version: 5.7.1
-    hasBin: true
-    dev: true
-
-  registry.npmmirror.com/semver@6.3.0:
-    resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/semver/-/semver-6.3.0.tgz}
-    name: semver
-    version: 6.3.0
-    hasBin: true
-    dev: true
-
-  registry.npmmirror.com/semver@7.3.8:
-    resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/semver/-/semver-7.3.8.tgz}
-    name: semver
-    version: 7.3.8
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      lru-cache: registry.npmmirror.com/lru-cache@6.0.0
-    dev: true
-
   registry.npmmirror.com/shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/shebang-command/-/shebang-command-2.0.0.tgz}
     name: shebang-command
@@ -4340,7 +4335,7 @@ packages:
       json5: registry.npmmirror.com/json5@2.2.1
       lodash.memoize: registry.npmmirror.com/lodash.memoize@4.1.2
       make-error: registry.npmmirror.com/make-error@1.3.6
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.3.8
       typescript: registry.npmmirror.com/typescript@4.8.4
       yargs-parser: registry.npmmirror.com/yargs-parser@21.1.1
     dev: true
